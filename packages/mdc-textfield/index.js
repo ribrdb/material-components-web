@@ -23,6 +23,7 @@ import {MDCTextFieldAdapter} from './adapter';
 import MDCTextFieldFoundation from './foundation';
 import {MDCTextFieldBottomLine} from './bottom-line';
 import {MDCTextFieldHelperText} from './helper-text';
+import {MDCTextFieldIcon} from './icon';
 
 /**
  * @extends {MDCComponent<!MDCTextFieldFoundation>}
@@ -44,7 +45,7 @@ class MDCTextField extends MDCComponent {
     this.bottomLine_;
     /** @private {?MDCTextFieldHelperText} */
     this.helperText_;
-    /** @private {?Element} */
+    /** @private {?MDCTextFieldIcon} */
     this.icon_;
   }
 
@@ -83,9 +84,10 @@ class MDCTextField extends MDCComponent {
         this.helperText_ = new MDCTextFieldHelperText(helperTextElement);
       }
     }
-    if (!this.root_.classList.contains(cssClasses.TEXT_FIELD_ICON)) {
-      this.icon_ = this.root_.querySelector(strings.ICON_SELECTOR);
-    };
+    const iconElement = this.root_.querySelector(strings.ICON_SELECTOR);
+    if (iconElement) {
+      this.icon_ = new MDCTextFieldIcon(iconElement);
+    }
   }
 
   destroy() {
@@ -157,10 +159,8 @@ class MDCTextField extends MDCComponent {
           label.classList.remove(className);
         }
       },
-      eventTargetHasClass: (target, className) => target.classList.contains(className),
       registerTextFieldInteractionHandler: (evtType, handler) => this.root_.addEventListener(evtType, handler),
       deregisterTextFieldInteractionHandler: (evtType, handler) => this.root_.removeEventListener(evtType, handler),
-      notifyIconAction: () => this.emit(MDCTextFieldFoundation.strings.ICON_EVENT, {}),
       registerBottomLineEventHandler: (evtType, handler) => {
         if (this.bottomLine_) {
           this.bottomLine_.listen(evtType, handler);
@@ -183,24 +183,14 @@ class MDCTextField extends MDCComponent {
         }
         return undefined;
       },
-    },
-    this.getInputAdapterMethods_(),
-    this.getIconAdapterMethods_())));
-  }
-
-  /**
-   * @return {!{
-   *   setIconAttr: function(string, string): undefined,
-   * }}
-   */
-  getIconAdapterMethods_() {
-    return {
-      setIconAttr: (name, value) => {
+      getIconFoundation: () => {
         if (this.icon_) {
-          this.icon_.setAttribute(name, value);
+          return this.icon_.foundation;
         }
+        return undefined;
       },
-    };
+    },
+    this.getInputAdapterMethods_())));
   }
 
   /**

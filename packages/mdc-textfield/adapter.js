@@ -18,6 +18,7 @@
 /* eslint-disable no-unused-vars */
 import MDCTextFieldBottomLineFoundation from './bottom-line/foundation';
 import MDCTextFieldHelperTextFoundation from './helper-text/foundation';
+import MDCTextFieldIconFoundation from './icon/foundation';
 
 /* eslint no-unused-vars: [2, {"args": "none"}] */
 
@@ -70,21 +71,6 @@ class MDCTextFieldAdapter {
   removeClassFromLabel(className) {}
 
   /**
-   * Sets an attribute on the icon Element.
-   * @param {string} name
-   * @param {string} value
-   */
-  setIconAttr(name, value) {}
-
-  /**
-   * Returns true if classname exists for a given target element.
-   * @param {?EventTarget} target
-   * @param {string} className
-   * @return {boolean}
-   */
-  eventTargetHasClass(target, className) {}
-
-  /**
    * Registers an event handler on the root element for a given event.
    * @param {string} type
    * @param {function(!Event): undefined} handler
@@ -97,11 +83,6 @@ class MDCTextFieldAdapter {
    * @param {function(!Event): undefined} handler
    */
   deregisterTextFieldInteractionHandler(type, handler) {}
-
-  /**
-   * Emits a custom event "MDCTextField:icon" denoting a user has clicked the icon.
-   */
-  notifyIconAction() {}
 
   /**
    * Registers an event listener on the native input element for a given event.
@@ -156,6 +137,13 @@ class MDCTextFieldAdapter {
    * @return {?MDCTextFieldHelperTextFoundation}
    */
   getHelperTextFoundation() {}
+
+  /**
+   * Returns the foundation for the icon element. Returns undefined if
+   * there is no icon element.
+   * @return {?MDCTextFieldIconFoundation}
+   */
+  getIconFoundation() {}
 }
 
 export {MDCTextFieldAdapter, NativeInputType};

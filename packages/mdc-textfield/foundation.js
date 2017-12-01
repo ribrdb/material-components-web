@@ -47,11 +47,8 @@ class MDCTextFieldFoundation extends MDCFoundation {
       removeClass: () => {},
       addClassToLabel: () => {},
       removeClassFromLabel: () => {},
-      setIconAttr: () => {},
-      eventTargetHasClass: () => {},
       registerTextFieldInteractionHandler: () => {},
       deregisterTextFieldInteractionHandler: () => {},
-      notifyIconAction: () => {},
       registerInputInteractionHandler: () => {},
       deregisterInputInteractionHandler: () => {},
       registerBottomLineEventHandler: () => {},
@@ -59,6 +56,7 @@ class MDCTextFieldFoundation extends MDCFoundation {
       getNativeInput: () => {},
       getBottomLineFoundation: () => {},
       getHelperTextFoundation: () => {},
+      getIconFoundation: () => {},
     });
   }
 
@@ -131,16 +129,11 @@ class MDCTextFieldFoundation extends MDCFoundation {
     if (this.adapter_.getNativeInput().disabled) {
       return;
     }
-
     this.receivedUserInput_ = true;
 
-    const {target, type} = evt;
-    const {TEXT_FIELD_ICON} = MDCTextFieldFoundation.cssClasses;
-    const targetIsIcon = this.adapter_.eventTargetHasClass(target, TEXT_FIELD_ICON);
-    const eventTriggersNotification = type === 'click' || evt.key === 'Enter' || evt.keyCode === 13;
-
-    if (targetIsIcon && eventTriggersNotification) {
-      this.adapter_.notifyIconAction();
+    const icon = this.adapter_.getIconFoundation();
+    if (icon) {
+      icon.handleTextFieldInteraction(evt);
     }
   }
 
@@ -264,10 +257,13 @@ class MDCTextFieldFoundation extends MDCFoundation {
     if (disabled) {
       this.adapter_.addClass(DISABLED);
       this.adapter_.removeClass(INVALID);
-      this.adapter_.setIconAttr('tabindex', '-1');
     } else {
       this.adapter_.removeClass(DISABLED);
-      this.adapter_.setIconAttr('tabindex', '0');
+    }
+
+    const icon = this.adapter_.getIconFoundation();
+    if (icon) {
+      icon.setDisabled(disabled);
     }
   }
 
