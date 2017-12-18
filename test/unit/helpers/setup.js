@@ -18,8 +18,10 @@ import td from 'testdouble';
 
 // Returns a foundation configured to use a mock object with the same api as a default adapter,
 // as well as that adapter itself.
-export function setupFoundationTest(FoundationClass) {
+function setupFoundationTest(FoundationClass) {
   const mockAdapter = td.object(FoundationClass.defaultAdapter);
   const foundation = new FoundationClass(mockAdapter);
   return {mockAdapter, foundation};
 }
+
+export {setupFoundationTest};

@@ -29,7 +29,7 @@
 // raf.flush(); // logs "first frame inner"
 // raf.restore(); // window.{rAF,cAF} set back to normal.
 // ```
-export function createMockRaf() {
+function createMockRaf() {
   const origRaf = window.requestAnimationFrame;
   const origCancel = window.cancelAnimationFrame;
   const mockRaf = {
@@ -70,3 +70,5 @@ export function createMockRaf() {
 
   return mockRaf;
 }
+
+export {createMockRaf};

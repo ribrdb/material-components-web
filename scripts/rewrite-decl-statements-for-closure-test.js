@@ -80,6 +80,8 @@ const recast = require('recast');
 const resolve = require('resolve');
 const t = require('babel-types');
 
+const testImports = new Set(['testdouble', 'bel', 'lolex']);
+
 main(process.argv);
 
 function main(argv) {
@@ -94,6 +96,7 @@ function main(argv) {
 }
 
 function transform(srcFile, rootDir) {
+  const isTest = srcFile.endsWith('.test.js');
   const src = fs.readFileSync(srcFile, 'utf8');
   const ast = recast.parse(src, {
     parser: {
@@ -101,30 +104,34 @@ function transform(srcFile, rootDir) {
     },
   });
 
-  traverse(ast, {
-    ExportNamedDeclaration(path) {
-      const properties = [];
-      path.node.specifiers.forEach((specifier) => {
-        properties.push(t.objectProperty(specifier.exported, specifier.exported, false, true, []));
-      });
-      const right = t.objectExpression(properties);
-      const expression = t.assignmentExpression('=', t.identifier('exports'), right);
-      path.replaceWith(t.expressionStatement(expression));
-    },
-  });
+  // Leave the .test.js files as es6 modules, so we don't have to
+  // specify them as entry points.
+  if (!isTest) {
+    traverse(ast, {
+      ExportNamedDeclaration(path) {
+        const properties = [];
+        path.node.specifiers.forEach((specifier) => {
+          properties.push(t.objectProperty(specifier.exported, specifier.exported, false, true, []));
+        });
+        const right = t.objectExpression(properties);
+        const expression = t.assignmentExpression('=', t.identifier('exports'), right);
+        path.replaceWith(t.expressionStatement(expression));
+      },
+    });
 
-  traverse(ast, {
-    ExportDefaultDeclaration(path) {
-      const expression = t.assignmentExpression('=', t.identifier('exports'), path.node.declaration);
-      path.replaceWith(t.expressionStatement(expression));
-    },
-  });
+    traverse(ast, {
+      ExportDefaultDeclaration(path) {
+        const expression = t.assignmentExpression('=', t.identifier('exports'), path.node.declaration);
+        path.replaceWith(t.expressionStatement(expression));
+      },
+    });
+  }
 
   traverse(ast, {
     ImportDeclaration(path) {
       const callee = t.memberExpression(t.identifier('goog'), t.identifier('require'), false);
       const packageStr = rewriteDeclarationSource(path.node, srcFile, rootDir);
-      const callExpression = t.callExpression(callee, [t.stringLiteral(packageStr)]);
+      let callExpression = t.callExpression(callee, [t.stringLiteral(packageStr)]);
 
       let variableDeclaratorId;
       if (path.node.specifiers.length > 1 || (src.substr(path.node.specifiers[0].start - 1, 1) === '{')) {
@@ -135,6 +142,19 @@ function transform(srcFile, rootDir) {
         variableDeclaratorId = t.objectPattern(properties);
       } else {
         variableDeclaratorId = path.node.specifiers[0].local;
+      }
+
+      // Rewrite third_party test imports.
+      if (path.node.source.value == 'chai') {
+        // We want 'const assert = chai.assert'
+        callExpression = t.memberExpression(t.identifier('chai'), t.identifier('assert'), false);
+      } else if (testImports.has(path.node.source.value)) {
+        path.remove();
+        return;
+      } else if (isTest) {
+        // We want es6 imports in tests, but need to rewrite the path.
+        rewriteTestImport(path.node, packageStr);
+        return;
       }
 
       const variableDeclarator = t.variableDeclarator(variableDeclaratorId, callExpression);
@@ -159,11 +179,14 @@ function transform(srcFile, rootDir) {
     },
   });
 
-  const relativePath = path.relative(rootDir, srcFile);
+  const relativePath = path.relative(rootDir, srcFile).replace(/^packages\//, '');
   const packageParts = relativePath.replace('mdc-', '').replace('.js', '').split('/');
-  const packageStr = 'mdc.' + packageParts.join('.').replace('.index', '');
+  const packageStr = 'mdc.' + packageParts.join('.').replace('.index', '').replace('-', '');
 
-  outputCode = 'goog.module(\'' + packageStr + '\');\n' + outputCode;
+  if (!isTest) {
+    // Need declareLegacyNamespace for https://github.com/google/closure-compiler/issues/1778
+    outputCode = 'goog.module(\'' + packageStr + '\');\ngoog.module.declareLegacyNamespace();\n' + outputCode;
+  }
   fs.writeFileSync(srcFile, outputCode, 'utf8');
   console.log(`[rewrite] ${srcFile}`);
 }
@@ -174,7 +197,7 @@ function rewriteDeclarationSource(node, srcFile, rootDir) {
   const isMDCImport = pathParts[0] === '@material';
   if (isMDCImport) {
     const modName = pathParts[1]; // @material/<modName>
-    const atMaterialReplacementPath = `${rootDir}/mdc-${modName}`;
+    const atMaterialReplacementPath = `${rootDir}/packages/mdc-${modName}`;
     const rewrittenSource = [atMaterialReplacementPath].concat(pathParts.slice(2)).join('/');
     source = rewrittenSource;
   }
@@ -197,11 +220,11 @@ function patchNodeForDeclarationSource(source, srcFile, rootDir, node) {
     if (needsClosureModuleRootResolution) {
       resolvedSource = path.relative(rootDir, resolve.sync(source, {
         basedir: path.dirname(srcFile),
-      }));
+      })).replace(/^packages\//, '');
     }
   }
   const packageParts = resolvedSource.replace('mdc-', '').replace('.js', '').split('/');
-  const packageStr = 'mdc.' + packageParts.join('.').replace('.index', '');
+  const packageStr = 'mdc.' + packageParts.join('.').replace('.index', '').replace('-', '');
   return packageStr;
 }
 
@@ -211,5 +234,14 @@ function patchDefaultImportIfNeeded(node) {
     const defaultImportSpecifier = node.specifiers[defaultImportSpecifierIndex];
     const defaultPropImportSpecifier = t.importSpecifier(defaultImportSpecifier.local, t.identifier('default'));
     node.specifiers[defaultImportSpecifierIndex] = defaultPropImportSpecifier;
+  }
+}
+
+function rewriteTestImport(node, packageStr) {
+  node.source.value = 'goog:'+packageStr;
+  const namespaceIndex = node.specifiers.findIndex(t.isImportNamespaceSpecifier);
+  if (namespaceIndex >= 0) {
+    const namespaceSpecifier = node.specifiers[namespaceIndex];
+    node.specifiers[namespaceIndex] = t.importDefaultSpecifier(namespaceSpecifier.local);
   }
 }

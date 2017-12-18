@@ -22,7 +22,7 @@ import td from 'testdouble';
 // - All expected adapter functions are accounted for
 // - Invoking any of the default methods does not throw an error.
 // Every foundation test suite include this verification.
-export function verifyDefaultAdapter(FoundationClass, expectedMethods) {
+function verifyDefaultAdapter(FoundationClass, expectedMethods) {
   const {defaultAdapter} = FoundationClass;
   const methods = Object.keys(defaultAdapter).filter((k) => typeof defaultAdapter[k] === 'function');
 
@@ -50,7 +50,7 @@ export function verifyDefaultAdapter(FoundationClass, expectedMethods) {
 //
 // Note that `handlerCaptureMethod` _must_ have a signature of `(string, EventListener) => any` in order to
 // be effective.
-export function captureHandlers(adapter, handlerCaptureMethod) {
+function captureHandlers(adapter, handlerCaptureMethod) {
   const {isA} = td.matchers;
   const handlers = {};
   td.when(adapter[handlerCaptureMethod](isA(String), isA(Function))).thenDo((type, handler) => {
@@ -58,3 +58,5 @@ export function captureHandlers(adapter, handlerCaptureMethod) {
   });
   return handlers;
 }
+
+export {verifyDefaultAdapter, captureHandlers};

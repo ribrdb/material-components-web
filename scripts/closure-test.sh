@@ -25,6 +25,7 @@ function log() {
 CLOSURE_TMP=.closure-tmp
 CLOSURE_PKGDIR=$CLOSURE_TMP/packages
 CLOSURIZED_PKGS=$(node -e "console.log(require('./package.json').closureWhitelist.join(' '))")
+CLOSURE_TESTDIR=$CLOSURE_TMP/test/unit
 
 if [ -z "$CLOSURIZED_PKGS" ]; then
   echo "No closurized packages to test!"
@@ -35,20 +36,22 @@ log "Prepping whitelisted packages for JS compilation"
 
 rm -fr $CLOSURE_TMP/**
 mkdir -p $CLOSURE_PKGDIR
+mkdir -p $CLOSURE_TESTDIR
+cp -r "test/unit/helpers" $CLOSURE_TESTDIR
 for pkg in $CLOSURIZED_PKGS; do
   cp -r "packages/$pkg" $CLOSURE_PKGDIR
+  cp -r "test/unit/$pkg" $CLOSURE_PKGDIR
 done
 rm -fr $CLOSURE_PKGDIR/**/{node_modules,dist}
 
 log "Rewriting all import statements to be closure compatible"
-node scripts/rewrite-decl-statements-for-closure-test.js $CLOSURE_PKGDIR
+node scripts/rewrite-decl-statements-for-closure-test.js $CLOSURE_TMP
 
 log "Testing packages"
 echo ''
 
 set +e
 for pkg in $CLOSURIZED_PKGS; do
-  entry_point="goog:mdc.${pkg/mdc-/}"
   # Note that the jscomp_error flags turn all default warnings into errors, so that
   # closure exits with a non-zero status if any of them are caught.
   # Also note that we disable accessControls checks due to

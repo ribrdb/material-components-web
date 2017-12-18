@@ -56,6 +56,7 @@
  *   third-party modules.
  *
  * @see https://developers.google.com/closure/compiler/docs/api-tutorial3
+ * @externs
  */
 
 /**
