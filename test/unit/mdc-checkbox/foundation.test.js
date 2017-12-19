@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/**
+ * @fileoverview
+ * @suppress {checkTypes}
+ */
+import {setupFoundationTest} from '../helpers/setup';
+import {verifyDefaultAdapter} from '../helpers/foundation';
+import MDCCheckboxFoundation from '../../../packages/mdc-checkbox/foundation';
+import {cssClasses, strings, numbers} from '../../../packages/mdc-checkbox/constants';
 
 import {assert} from 'chai';
 import bel from 'bel';
 import lolex from 'lolex';
 import td from 'testdouble';
-
-import {setupFoundationTest} from '../helpers/setup';
-import {verifyDefaultAdapter} from '../helpers/foundation';
-import MDCCheckboxFoundation from '../../../packages/mdc-checkbox/foundation';
-import {cssClasses, strings, numbers} from '../../../packages/mdc-checkbox/constants';
 
 const DESC_UNDEFINED = {
   get: undefined,

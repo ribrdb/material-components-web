@@ -5,7 +5,7 @@
 
 /**
  * @param {Array<string>} strings
- * @param {*} keys
+ * @param {*=} keys
  * @return {HTMLElement}
  */
 function bel(strings, keys) {};
@@ -55,34 +55,31 @@ td.Stubber = class {
    */
   thenCallback(args) {}
 };
-/** @interface */
-td.Matchers = class {
+td.matchers = {
   /** @return {*} */
-  anything() {}
+  anything() {},
   /** @return {*} */
-  isA(/** Function */ type) {}
+  isA(/** Function */ type) {},
   /**
    * @param {string|Array<*>|Object} a
    * @return {*}
    */
-  contains(a) {}
+  contains(a) {},
   /** @return {*} */
-  argThat(/** Function */ matcher) {}
+  argThat(/** Function */ matcher) {},
   /**
    * @param {*} v
    * @return {*}
    */
-  not(v) {}
+  not(v) {},
 };
-/** @const @type {td.Matchers} */
-td.matchers;
 
 const chai = {
   /**
    * @param {*} expr
    * @param {string=} message
    */
-  assert(expr, message) {}
+  assert(expr, message) {},
 };
 /**
  * @template T

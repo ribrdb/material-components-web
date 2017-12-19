@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-import {assert} from 'chai';
-import bel from 'bel';
-import td from 'testdouble';
+/** @fileoverview @suppress {checkTypes} */
 
 import {MDCRipple} from '../../../packages/mdc-ripple';
 import {cssClasses} from '../../../packages/mdc-ripple/constants';
 import * as util from '../../../packages/mdc-ripple/util';
+
+import {assert} from 'chai';
+import bel from 'bel';
+import td from 'testdouble';
 
 suite('MDCRipple');
 

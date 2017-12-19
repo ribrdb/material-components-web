@@ -13,15 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import {assert} from 'chai';
-import lolex from 'lolex';
-import td from 'testdouble';
+/**
+ * @fileoverview
+ * @suppress {checkTypes}
+ */
 import {captureHandlers, verifyDefaultAdapter} from '../helpers/foundation';
 import {setupFoundationTest} from '../helpers/setup';
 import {createMockRaf} from '../helpers/raf';
 import MDCSimpleMenuFoundation from '../../../packages/mdc-menu/simple/foundation';
 import {cssClasses, strings, numbers} from '../../../packages/mdc-menu/simple/constants';
+
+import {assert} from 'chai';
+import lolex from 'lolex';
+import td from 'testdouble';
 
 function setupTest() {
   const {foundation, mockAdapter} = setupFoundationTest(MDCSimpleMenuFoundation);

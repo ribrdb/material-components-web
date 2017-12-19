@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-import {assert} from 'chai';
-import td from 'testdouble';
+/** @fileoverview @suppress {checkTypes} */
 
 import {testFoundation, captureRippleHandlers} from './helpers';
 import {cssClasses, strings} from '../../../packages/mdc-ripple/constants';
+
+import {assert} from 'chai';
+import td from 'testdouble';
 
 suite('MDCRippleFoundation - General Events');
 

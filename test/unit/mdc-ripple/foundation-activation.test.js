@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-import td from 'testdouble';
-
+/** @fileoverview @suppress {checkTypes} */
 import {testFoundation, captureRippleHandlers} from './helpers';
 import {cssClasses, strings, numbers} from '../../../packages/mdc-ripple/constants';
+
+import td from 'testdouble';
 
 suite('MDCRippleFoundation - Activation Logic');
 

@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import bel from 'bel';
-import td from 'testdouble';
-import {assert} from 'chai';
-
+/**
+ * @fileoverview
+ * @suppress {checkTypes}
+ */
 import {supportsCssVariables} from '../../../packages/mdc-ripple/util';
 import {createMockRaf} from '../helpers/raf';
 import {MDCIconToggle, MDCIconToggleFoundation} from '../../../packages/mdc-icon-toggle';
 import {MDCRipple} from '../../../packages/mdc-ripple';
 import {cssClasses} from '../../../packages/mdc-ripple/constants';
+
+import bel from 'bel';
+import td from 'testdouble';
+import {assert} from 'chai';
 
 function setupTest({tabIndex = undefined, useInnerIconElement = false} = {}) {
   const root = document.createElement(useInnerIconElement ? 'span' : 'i');

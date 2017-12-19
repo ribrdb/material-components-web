@@ -13,13 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import {assert} from 'chai';
-import td from 'testdouble';
-
+/**
+ * @fileoverview
+ * @suppress {checkTypes}
+ */
 import {setupFoundationTest} from '../helpers/setup';
 import {verifyDefaultAdapter, captureHandlers as baseCaptureHandlers} from '../helpers/foundation';
 import MDCIconToggleFoundation from '../../../packages/mdc-icon-toggle/foundation';
+
+import {assert} from 'chai';
+import td from 'testdouble';
 
 const {strings, cssClasses} = MDCIconToggleFoundation;
 

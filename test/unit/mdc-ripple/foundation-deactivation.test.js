@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-import lolex from 'lolex';
-import td from 'testdouble';
+/** @fileoverview @suppress {checkTypes} */
 
 import {testFoundation, captureRippleHandlers} from './helpers';
 import {cssClasses, numbers} from '../../../packages/mdc-ripple/constants';
+
+import lolex from 'lolex';
+import td from 'testdouble';
 
 const {DEACTIVATION_TIMEOUT_MS} = numbers;
 

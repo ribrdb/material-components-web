@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-import {assert} from 'chai';
+/** @fileoverview @suppress {checkTypes} */
 import {createMockWindowForCssVariables} from './helpers';
+
 import td from 'testdouble';
 import * as util from '../../../packages/mdc-ripple/util';
+import {assert} from 'chai';
 
 suite('MDCRipple - util');
 

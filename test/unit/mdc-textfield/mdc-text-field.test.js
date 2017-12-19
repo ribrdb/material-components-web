@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import bel from 'bel';
-import td from 'testdouble';
-import {assert} from 'chai';
+/** @fileoverview @suppress {checkTypes} */
 
 import {MDCRipple} from '../../../packages/mdc-ripple';
 import {MDCTextField, MDCTextFieldFoundation, MDCTextFieldBottomLine,
   MDCTextFieldHelperText, MDCTextFieldIcon, MDCTextFieldLabel} from '../../../packages/mdc-textfield';
+
+import bel from 'bel';
+import td from 'testdouble';
+import {assert} from 'chai';
 
 const {cssClasses} = MDCTextFieldFoundation;
 

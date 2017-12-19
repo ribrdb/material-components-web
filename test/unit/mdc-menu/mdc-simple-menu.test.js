@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/**
+ * @fileoverview
+ * @suppress {checkTypes}
+ */
+import {MDCSimpleMenu} from '../../../packages/mdc-menu/simple';
+import {strings} from '../../../packages/mdc-menu/simple/constants';
+import {getTransformPropertyName} from '../../../packages/mdc-menu/util';
 
 import {assert} from 'chai';
 import bel from 'bel';
 import td from 'testdouble';
-
-import {MDCSimpleMenu} from '../../../packages/mdc-menu/simple';
-import {strings} from '../../../packages/mdc-menu/simple/constants';
-import {getTransformPropertyName} from '../../../packages/mdc-menu/util';
 
 function getFixture(open) {
   return bel`

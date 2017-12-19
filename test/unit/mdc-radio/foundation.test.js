@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/**
+ * @fileoverview
+ * @suppress {checkTypes}
+ */
+import MDCRadioFoundation from '../../../packages/mdc-radio/foundation';
 
 import {assert} from 'chai';
 import td from 'testdouble';
-
-import MDCRadioFoundation from '../../../packages/mdc-radio/foundation';
 
 suite('MDCRadioFoundation');
 

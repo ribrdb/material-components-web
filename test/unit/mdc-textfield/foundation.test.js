@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import {assert} from 'chai';
-import td from 'testdouble';
+/** @fileoverview @suppress {checkTypes} */
 
 import {verifyDefaultAdapter} from '../helpers/foundation';
 import MDCTextFieldFoundation from '../../../packages/mdc-textfield/foundation';
 import MDCTextFieldBottomLineFoundation from '../../../packages/mdc-textfield/bottom-line/foundation';
+
+import {assert} from 'chai';
+import td from 'testdouble';
 
 const {cssClasses} = MDCTextFieldFoundation;
 
