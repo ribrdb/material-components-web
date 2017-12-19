@@ -17,7 +17,6 @@
 import bel from 'bel';
 import {assert} from 'chai';
 import td from 'testdouble';
-import domEvents from 'dom-events';
 
 import {MDCTextFieldIcon, MDCTextFieldIconFoundation} from '../../../packages/mdc-textfield/icon';
 
@@ -47,7 +46,7 @@ test('#adapter.registerInteractionHandler adds event listener for a given event 
   const {root, component} = setupTest();
   const handler = td.func('keydown handler');
   component.getDefaultFoundation().adapter_.registerInteractionHandler('keydown', handler);
-  domEvents.emit(root, 'keydown');
+  root.dispatchEvent(new Event('keydown'));
 
   td.verify(handler(td.matchers.anything()));
 });
@@ -58,7 +57,7 @@ test('#adapter.deregisterInteractionHandler removes event listener for a given e
 
   root.addEventListener('keydown', handler);
   component.getDefaultFoundation().adapter_.deregisterInteractionHandler('keydown', handler);
-  domEvents.emit(root, 'keydown');
+  root.dispatchEvent(new Event('keydown'));
 
   td.verify(handler(td.matchers.anything()), {times: 0});
 });

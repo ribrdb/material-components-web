@@ -15,7 +15,6 @@
  */
 
 import bel from 'bel';
-import domEvents from 'dom-events';
 import td from 'testdouble';
 import {assert} from 'chai';
 
@@ -254,7 +253,7 @@ test('#adapter.registerInputInteractionHandler adds a handler to the input eleme
   const input = root.querySelector('.mdc-text-field__input');
   const handler = td.func('eventHandler');
   component.getDefaultFoundation().adapter_.registerInputInteractionHandler('click', handler);
-  domEvents.emit(input, 'click');
+  input.dispatchEvent(new Event('click'));
   td.verify(handler(td.matchers.anything()));
 });
 
@@ -265,7 +264,7 @@ test('#adapter.deregisterInputInteractionHandler removes a handler from the inpu
 
   input.addEventListener('click', handler);
   component.getDefaultFoundation().adapter_.deregisterInputInteractionHandler('click', handler);
-  domEvents.emit(input, 'click');
+  input.dispatchEvent(new Event('click'));
   td.verify(handler(td.matchers.anything()), {times: 0});
 });
 
@@ -273,7 +272,7 @@ test('#adapter.registerTextFieldInteractionHandler adds an event handler for a g
   const {root, component} = setupTest();
   const handler = td.func('TextFieldInteractionHandler');
   component.getDefaultFoundation().adapter_.registerTextFieldInteractionHandler('click', handler);
-  domEvents.emit(root, 'click');
+  root.dispatchEvent(new Event('click'));
   td.verify(handler(td.matchers.anything()));
 });
 
@@ -282,7 +281,7 @@ test('#adapter.deregisterTextFieldInteractionHandler removes an event handler fo
   const handler = td.func('TextFieldInteractionHandler');
   root.addEventListener('click', handler);
   component.getDefaultFoundation().adapter_.registerTextFieldInteractionHandler('click', handler);
-  domEvents.emit(root, 'click');
+  root.dispatchEvent(new Event('click'));
   td.verify(handler(td.matchers.anything()));
 });
 

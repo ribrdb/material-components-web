@@ -15,7 +15,6 @@
  */
 
 import bel from 'bel';
-import domEvents from 'dom-events';
 import td from 'testdouble';
 import {assert} from 'chai';
 
@@ -170,7 +169,7 @@ test('#adapter.registerInteractionHandler adds an event listener for (type, hand
   document.body.appendChild(root);
   const handler = td.func('clickHandler');
   component.getDefaultFoundation().adapter_.registerInteractionHandler('click', handler);
-  domEvents.emit(root, 'click');
+  root.dispatchEvent(new Event('click'));
   td.verify(handler(td.matchers.anything()));
   document.body.removeChild(root);
 });
@@ -182,7 +181,7 @@ test('#adapter.deregisterInteractionHandler removes an event listener for (type,
 
   root.addEventListener('click', handler);
   component.getDefaultFoundation().adapter_.deregisterInteractionHandler('click', handler);
-  domEvents.emit(root, 'click');
+  root.dispatchEvent(new Event('click'));
   td.verify(handler(td.matchers.anything()), {times: 0});
   document.body.removeChild(root);
 });
@@ -239,12 +238,12 @@ test(`#adapter.notifyChange broadcasts a ${MDCIconToggleFoundation.strings.CHANG
 
 test('assert keydown does not trigger ripple', () => {
   const {root} = setupTest();
-  domEvents.emit(root, 'keydown');
+  root.dispatchEvent(new Event('keydown'));
   assert.isNotOk(root.classList.contains(cssClasses.FG_ACTIVATION));
 });
 
 test('assert keyup does not trigger ripple', () => {
   const {root} = setupTest();
-  domEvents.emit(root, 'keyup');
+  root.dispatchEvent(new Event('keyup'));
   assert.isNotOk(root.classList.contains(cssClasses.FG_ACTIVATION));
 });

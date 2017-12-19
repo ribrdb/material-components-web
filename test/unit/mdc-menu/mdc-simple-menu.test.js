@@ -16,7 +16,6 @@
 
 import {assert} from 'chai';
 import bel from 'bel';
-import domEvents from 'dom-events';
 import td from 'testdouble';
 
 import {MDCSimpleMenu} from '../../../packages/mdc-menu/simple';
@@ -166,7 +165,7 @@ test('adapter#registerInteractionHandler proxies to addEventListener', () => {
   const {root, component} = setupTest();
   const handler = td.func('interactionHandler');
   component.getDefaultFoundation().adapter_.registerInteractionHandler('foo', handler);
-  domEvents.emit(root, 'foo');
+  root.dispatchEvent(new Event('foo'));
   td.verify(handler(td.matchers.anything()));
 });
 
@@ -175,7 +174,7 @@ test('adapter#deregisterInteractionHandler proxies to removeEventListener', () =
   const handler = td.func('interactionHandler');
   root.addEventListener('foo', handler);
   component.getDefaultFoundation().adapter_.deregisterInteractionHandler('foo', handler);
-  domEvents.emit(root, 'foo');
+  root.dispatchEvent(new Event('foo'));
   td.verify(handler(td.matchers.anything()), {times: 0});
 });
 
@@ -184,7 +183,7 @@ test('adapter#registerBodyClickHandler proxies to addEventListener', () => {
   const handler = td.func('interactionHandler');
 
   component.getDefaultFoundation().adapter_.registerBodyClickHandler(handler);
-  domEvents.emit(document.body, 'click');
+  document.body.dispatchEvent(new Event('click'));
   td.verify(handler(td.matchers.anything()));
 });
 
@@ -194,7 +193,7 @@ test('adapter#deregisterBodyClickHandler proxies to removeEventListener', () => 
 
   document.body.addEventListener('click', handler);
   component.getDefaultFoundation().adapter_.deregisterBodyClickHandler(handler);
-  domEvents.emit(document.body, 'click');
+  document.body.dispatchEvent(new Event('click'));
   td.verify(handler(td.matchers.anything()), {times: 0});
 });
 

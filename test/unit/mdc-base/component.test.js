@@ -15,7 +15,6 @@
  */
 
 import {assert} from 'chai';
-import domEvents from 'dom-events';
 import td from 'testdouble';
 
 import {MDCComponent} from '../../../packages/mdc-base';
@@ -122,7 +121,7 @@ test('#listen adds an event listener to the root element', () => {
   const f = new FakeComponent(root);
   const handler = td.func('eventHandler');
   f.listen('FakeComponent:customEvent', handler);
-  domEvents.emit(root, 'FakeComponent:customEvent');
+  root.dispatchEvent(new Event('FakeComponent:customEvent'));
   td.verify(handler(td.matchers.anything()));
 });
 
@@ -132,7 +131,7 @@ test('#unlisten removes an event listener from the root element', () => {
   const handler = td.func('eventHandler');
   root.addEventListener('FakeComponent:customEvent', handler);
   f.unlisten('FakeComponent:customEvent', handler);
-  domEvents.emit(root, 'FakeComponent:customEvent');
+  root.dispatchEvent(new Event('FakeComponent:customEvent'));
   td.verify(handler(td.matchers.anything()), {times: 0});
 });
 

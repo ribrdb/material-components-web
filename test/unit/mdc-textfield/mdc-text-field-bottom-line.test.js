@@ -17,7 +17,6 @@
 import bel from 'bel';
 import {assert} from 'chai';
 import td from 'testdouble';
-import domEvents from 'dom-events';
 
 import {MDCTextFieldBottomLine, MDCTextFieldBottomLineFoundation} from '../../../packages/mdc-textfield/bottom-line';
 
@@ -61,7 +60,7 @@ test('#adapter.registerEventHandler adds event listener for a given event to the
   const {root, component} = setupTest();
   const handler = td.func('transitionend handler');
   component.getDefaultFoundation().adapter_.registerEventHandler('transitionend', handler);
-  domEvents.emit(root, 'transitionend');
+  root.dispatchEvent(new Event('transitionend'));
 
   td.verify(handler(td.matchers.anything()));
 });
@@ -72,7 +71,7 @@ test('#adapter.deregisterEventHandler removes event listener for a given event f
 
   root.addEventListener('transitionend', handler);
   component.getDefaultFoundation().adapter_.deregisterEventHandler('transitionend', handler);
-  domEvents.emit(root, 'transitionend');
+  root.dispatchEvent(new Event('transitionend'));
 
   td.verify(handler(td.matchers.anything()), {times: 0});
 });

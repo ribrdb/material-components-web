@@ -16,7 +16,6 @@
 
 import {assert} from 'chai';
 import bel from 'bel';
-import domEvents from 'dom-events';
 import td from 'testdouble';
 
 import {MDCFormField} from '../../../packages/mdc-form-field';
@@ -55,7 +54,7 @@ test('adapter#registerInteractionHandler adds an event listener to the label ele
   const label = root.querySelector('label');
 
   component.getDefaultFoundation().adapter_.registerInteractionHandler('click', handler);
-  domEvents.emit(label, 'click');
+  label.dispatchEvent(new Event('click'));
 
   td.verify(handler(td.matchers.anything()));
 });
@@ -67,7 +66,7 @@ test('adapter#deregisterInteractionHandler removes an event listener from the ro
   label.addEventListener('click', handler);
 
   component.getDefaultFoundation().adapter_.deregisterInteractionHandler('click', handler);
-  domEvents.emit(label, 'click');
+  label.dispatchEvent(new Event('click'));
 
   td.verify(handler(td.matchers.anything()), {times: 0});
 });

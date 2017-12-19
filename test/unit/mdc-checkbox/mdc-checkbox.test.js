@@ -16,7 +16,6 @@
 
 import {assert} from 'chai';
 import bel from 'bel';
-import domEvents from 'dom-events';
 import td from 'testdouble';
 
 import {supportsCssVariables} from '../../../packages/mdc-ripple/util';
@@ -87,7 +86,7 @@ if (supportsCssVariables(window)) {
     input[getMatchesProperty(HTMLElement.prototype)] = fakeMatches;
 
     assert.isTrue(root.classList.contains('mdc-ripple-upgraded'));
-    domEvents.emit(input, 'keydown');
+    input.dispatchEvent(new Event('keydown'));
     raf.flush();
 
     assert.isTrue(root.classList.contains('mdc-ripple-upgraded--foreground-activation'));
@@ -153,7 +152,7 @@ test('adapter#registerAnimationEndHandler adds an animation end event listener o
   const {root, component} = setupTest();
   const handler = td.func('animationEndHandler');
   component.getDefaultFoundation().adapter_.registerAnimationEndHandler(handler);
-  domEvents.emit(root, getCorrectEventName(window, 'animationend'));
+  root.dispatchEvent(new Event(getCorrectEventName(window, 'animationend')));
 
   td.verify(handler(td.matchers.anything()));
 });
@@ -165,7 +164,7 @@ test('adapter#deregisterAnimationEndHandler removes an animation end event liste
   root.addEventListener(animEndEvtName, handler);
 
   component.getDefaultFoundation().adapter_.deregisterAnimationEndHandler(handler);
-  domEvents.emit(root, animEndEvtName);
+  root.dispatchEvent(new Event(animEndEvtName));
 
   td.verify(handler(td.matchers.anything()), {times: 0});
 });
@@ -176,7 +175,7 @@ test('adapter#registerChangeHandler adds a change event listener to the native c
   const handler = td.func('changeHandler');
 
   component.getDefaultFoundation().adapter_.registerChangeHandler(handler);
-  domEvents.emit(nativeCb, 'change');
+  nativeCb.dispatchEvent(new Event('change'));
 
   td.verify(handler(td.matchers.anything()));
 });
@@ -188,7 +187,7 @@ test('adapter#deregisterChangeHandler adds a change event listener to the native
   nativeCb.addEventListener('change', handler);
 
   component.getDefaultFoundation().adapter_.deregisterChangeHandler(handler);
-  domEvents.emit(nativeCb, 'change');
+  nativeCb.dispatchEvent(new Event('change'));
 
   td.verify(handler(td.matchers.anything()), {times: 0});
 });

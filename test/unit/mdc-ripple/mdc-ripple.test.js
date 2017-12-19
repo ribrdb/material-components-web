@@ -16,7 +16,6 @@
 
 import {assert} from 'chai';
 import bel from 'bel';
-import domEvents from 'dom-events';
 import td from 'testdouble';
 
 import {MDCRipple} from '../../../packages/mdc-ripple';
@@ -141,7 +140,7 @@ test('adapter#registerInteractionHandler proxies to addEventListener', () => {
   const {root, component} = setupTest();
   const handler = td.func('interactionHandler');
   component.getDefaultFoundation().adapter_.registerInteractionHandler('foo', handler);
-  domEvents.emit(root, 'foo');
+  root.dispatchEvent(new Event('foo'));
   td.verify(handler(td.matchers.anything()));
 });
 
@@ -150,7 +149,7 @@ test('adapter#deregisterInteractionHandler proxies to removeEventListener', () =
   const handler = td.func('interactionHandler');
   root.addEventListener('foo', handler);
   component.getDefaultFoundation().adapter_.deregisterInteractionHandler('foo', handler);
-  domEvents.emit(root, 'foo');
+  root.dispatchEvent(new Event('foo'));
   td.verify(handler(td.matchers.anything()), {times: 0});
 });
 
@@ -158,7 +157,7 @@ test('adapter#registerResizeHandler uses the handler as a window resize listener
   const {component} = setupTest();
   const handler = td.func('resizeHandler');
   component.getDefaultFoundation().adapter_.registerResizeHandler(handler);
-  domEvents.emit(window, 'resize');
+  window.dispatchEvent(new Event('resize'));
   td.verify(handler(td.matchers.anything()));
   window.removeEventListener('resize', handler);
 });
@@ -168,7 +167,7 @@ test('adapter#registerResizeHandler unlistens the handler for window resize', ()
   const handler = td.func('resizeHandler');
   window.addEventListener('resize', handler);
   component.getDefaultFoundation().adapter_.deregisterResizeHandler(handler);
-  domEvents.emit(window, 'resize');
+  window.dispatchEvent(new Event('resize'));
   td.verify(handler(td.matchers.anything()), {times: 0});
   // Just to be safe
   window.removeEventListener('resize', handler);
