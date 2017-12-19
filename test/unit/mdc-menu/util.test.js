@@ -15,7 +15,7 @@
  */
 
 import {assert} from 'chai';
-import * as utils from '../../../packages/mdc-menu/util';
+import * as util from '../../../packages/mdc-menu/util';
 
 suite('MDCMenu - util');
 
@@ -27,7 +27,7 @@ test('getTransformPropertyName returns "transform" for browsers that support it'
       },
     },
   };
-  assert.equal(utils.getTransformPropertyName(mockWindow, true), 'transform');
+  assert.equal(util.getTransformPropertyName(mockWindow, true), 'transform');
 });
 
 test('getTransformPropertyName returns "webkitTransform" for browsers that do not support "transform"', () => {
@@ -38,7 +38,7 @@ test('getTransformPropertyName returns "webkitTransform" for browsers that do no
       },
     },
   };
-  assert.equal(utils.getTransformPropertyName(mockWindow, true), 'webkitTransform');
+  assert.equal(util.getTransformPropertyName(mockWindow, true), 'webkitTransform');
 });
 
 test('getTransformPropertyName caches the property name if forceRefresh 2nd arg is not given', () => {
@@ -48,48 +48,48 @@ test('getTransformPropertyName caches the property name if forceRefresh 2nd arg 
       createElement: () => mockElement,
     },
   };
-  assert.equal(utils.getTransformPropertyName(mockWindow, true), 'transform', 'sanity check');
-  assert.equal(utils.getTransformPropertyName(mockWindow), 'transform', 'sanity check no force refresh');
+  assert.equal(util.getTransformPropertyName(mockWindow, true), 'transform', 'sanity check');
+  assert.equal(util.getTransformPropertyName(mockWindow), 'transform', 'sanity check no force refresh');
 
   delete mockElement.style.transform;
-  assert.equal(utils.getTransformPropertyName(mockWindow), 'transform');
-  assert.equal(utils.getTransformPropertyName(mockWindow, true), 'webkitTransform');
+  assert.equal(util.getTransformPropertyName(mockWindow), 'transform');
+  assert.equal(util.getTransformPropertyName(mockWindow, true), 'webkitTransform');
 });
 
 test('clamp clamps values lower than 0 to 0', () => {
-  assert.equal(utils.clamp(-0.8), 0);
-  assert.equal(utils.clamp(-0.42), 0);
-  assert.equal(utils.clamp(-0.111111), 0);
+  assert.equal(util.clamp(-0.8), 0);
+  assert.equal(util.clamp(-0.42), 0);
+  assert.equal(util.clamp(-0.111111), 0);
 });
 
 test('clamp clamps values higer than 1 to 1', () => {
-  assert.equal(utils.clamp(1.8), 1);
-  assert.equal(utils.clamp(1.42), 1);
-  assert.equal(utils.clamp(1.111111), 1);
+  assert.equal(util.clamp(1.8), 1);
+  assert.equal(util.clamp(1.42), 1);
+  assert.equal(util.clamp(1.111111), 1);
 });
 
 test('clamp does not modify values between 0 and 1', () => {
-  assert.equal(utils.clamp(0.8), 0.8);
-  assert.equal(utils.clamp(0.42), 0.42);
-  assert.equal(utils.clamp(0.111111), 0.111111);
+  assert.equal(util.clamp(0.8), 0.8);
+  assert.equal(util.clamp(0.42), 0.42);
+  assert.equal(util.clamp(0.111111), 0.111111);
 });
 
 test('clamp correctly clamps with a provided minimum value', () => {
-  assert.equal(utils.clamp(-0.8, 0.2), 0.2);
-  assert.equal(utils.clamp(-0.42, -0.5), -0.42);
-  assert.equal(utils.clamp(0.111111, 1), 1);
+  assert.equal(util.clamp(-0.8, 0.2), 0.2);
+  assert.equal(util.clamp(-0.42, -0.5), -0.42);
+  assert.equal(util.clamp(0.111111, 1), 1);
 });
 
 test('clamp correctly clamps with provided minimum and maximum values', () => {
-  assert.equal(utils.clamp(-0.8, 0.2, 0.3), 0.2);
-  assert.equal(utils.clamp(0.42, 0.3, 0.5), 0.42);
-  assert.equal(utils.clamp(5.111111, 1, 5), 5);
+  assert.equal(util.clamp(-0.8, 0.2, 0.3), 0.2);
+  assert.equal(util.clamp(0.42, 0.3, 0.5), 0.42);
+  assert.equal(util.clamp(5.111111, 1, 5), 5);
 });
 
 function testBezier(curve, expected) {
   Object.keys(expected).forEach((time) => {
     // Compare values rounded to 3 decimal places.
-    const raw = utils.bezierProgress(parseFloat(time), curve.x1, curve.y1, curve.x2, curve.y2);
+    const raw = util.bezierProgress(parseFloat(time), curve.x1, curve.y1, curve.x2, curve.y2);
     const actual = parseFloat(raw.toFixed(3));
     const value = expected[time];
     assert.equal(actual, value, `At time ${time}: value ${actual} should be ${value}`);

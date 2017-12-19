@@ -18,10 +18,10 @@ import td from 'testdouble';
 
 import {setupFoundationTest} from '../helpers/setup';
 import {createMockRaf} from '../helpers/raf';
-import {captureHandlers as baseCaptureHandlers} from '../helpers/foundation';
+import {captureHandlers} from '../helpers/foundation';
 import MDCRippleFoundation from '../../../packages/mdc-ripple/foundation';
 
-export function setupTest(isCssVarsSupported = true) {
+function setupTest(isCssVarsSupported = true) {
   const {foundation, mockAdapter} = setupFoundationTest(MDCRippleFoundation);
   td.when(mockAdapter.browserSupportsCssVars()).thenReturn(isCssVarsSupported);
   td.when(mockAdapter.computeBoundingRect()).thenReturn({width: 0, height: 0, left: 0, top: 0});
@@ -29,7 +29,7 @@ export function setupTest(isCssVarsSupported = true) {
   return {foundation, adapter: mockAdapter};
 }
 
-export function testFoundation(desc, isCssVarsSupported, runTests) {
+function testFoundation(desc, isCssVarsSupported, runTests) {
   if (arguments.length === 2) {
     runTests = isCssVarsSupported;
     isCssVarsSupported = true;
@@ -43,14 +43,14 @@ export function testFoundation(desc, isCssVarsSupported, runTests) {
   });
 }
 
-export function captureHandlers(adapter) {
-  const handlers = baseCaptureHandlers(adapter, 'registerInteractionHandler');
+function captureRippleHandlers(adapter) {
+  const handlers = captureHandlers(adapter, 'registerInteractionHandler');
   return handlers;
 }
 
 // Creates a mock window object with all members necessary to test util.supportsCssVariables
 // in cases where window.CSS.supports indicates the feature is supported.
-export function createMockWindowForCssVariables() {
+function createMockWindowForCssVariables() {
   const getComputedStyle = td.func('window.getComputedStyle');
   const remove = () => mockWindow.appendedNodes--;
   const mockDoc = {
@@ -79,3 +79,10 @@ export function createMockWindowForCssVariables() {
   };
   return mockWindow;
 }
+
+export {
+  setupTest,
+  testFoundation,
+  captureRippleHandlers,
+  createMockWindowForCssVariables,
+};
