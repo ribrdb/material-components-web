@@ -24,11 +24,59 @@ const td = {
    * @return {T}
    */
   object(o) {},
+  /**
+   * @template T
+   * @param {T} o
+   * @return {T}
+   */
+  func(o) {},
   /** @param {...*} args */
   callback(args) {},
   /** @param {...*} args */
   verify(args) {},
+  /**
+   * @param {...*} args
+   * @return {td.Stubber}
+   */
+  when(args) {},
 };
+/** @interface */
+td.Stubber = class {
+  /**
+   * @param {...*} args
+   */
+  thenReturn(args) {}
+  thenDo(/** Function */ f) {}
+  thenThrow(/** Error */ e) {}
+  /** @param {...*} args */
+  thenResolve(args) {}
+  thenReject(/** Error */ e) {}
+  /**
+   * @param {...*} args
+   */
+  thenCallback(args) {}
+};
+/** @interface */
+td.Matchers = class {
+  /** @return {*} */
+  anything() {}
+  /** @return {*} */
+  isA(/** Function */ type) {}
+  /**
+   * @param {string|Array<*>|Object} a
+   * @return {*}
+   */
+  contains(a) {}
+  /** @return {*} */
+  argThat(/** Function */ matcher) {}
+  /**
+   * @param {*} v
+   * @return {*}
+   */
+  not(v) {}
+};
+/** @const @type {td.Matchers} */
+td.matchers;
 
 const chai = {
   /**

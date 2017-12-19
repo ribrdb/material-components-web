@@ -146,8 +146,9 @@ function transform(srcFile, rootDir) {
 
       // Rewrite third_party test imports.
       if (path.node.source.value == 'chai') {
-        // We want 'const assert = chai.assert'
-        callExpression = t.memberExpression(t.identifier('chai'), t.identifier('assert'), false);
+        chaiAssert = true;
+        // We want 'const {assert} = chai'
+        callExpression = t.identifier('chai');
       } else if (testImports.has(path.node.source.value)) {
         path.remove();
         return;

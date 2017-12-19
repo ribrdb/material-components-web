@@ -40,7 +40,9 @@ mkdir -p $CLOSURE_TESTDIR
 cp -r "test/unit/helpers" $CLOSURE_TESTDIR
 for pkg in $CLOSURIZED_PKGS; do
   cp -r "packages/$pkg" $CLOSURE_PKGDIR
-  cp -r "test/unit/$pkg" $CLOSURE_PKGDIR
+  if [ -d test/unit/$pkg ]; then
+    cp -r "test/unit/$pkg" $CLOSURE_TESTDIR
+  fi
 done
 rm -fr $CLOSURE_PKGDIR/**/{node_modules,dist}
 
@@ -52,20 +54,17 @@ echo ''
 
 set +e
 for pkg in $CLOSURIZED_PKGS; do
+  echo "(function(){%output%)).call(this);//# sourceMappingURL=${pkg}_test.js.map" >$CLOSURE_TMP/wrapper.txt
   # Note that the jscomp_error flags turn all default warnings into errors, so that
   # closure exits with a non-zero status if any of them are caught.
-  # Also note that we disable accessControls checks due to
-  # https://github.com/google/closure-compiler/issues/2261
   CMD="java -jar node_modules/google-closure-compiler/compiler.jar \
   --externs closure_externs.js \
+  --externs closure_unit_test_externs.js \
   --compilation_level ADVANCED \
-  --js $(find $CLOSURE_PKGDIR -type f -name "*.js") \
+  --js $(find $CLOSURE_PKGDIR $CLOSURE_TESTDIR/helpers $CLOSURE_TESTDIR/$pkg/ -type f -name "*.js") \
   --language_out ECMASCRIPT5_STRICT \
-  --dependency_mode STRICT \
-  --module_resolution LEGACY \
-  --js_module_root $CLOSURE_PKGDIR \
-  --entry_point $entry_point \
-  --checks_only \
+  --dependency_mode LOOSE \
+  --module_resolution NODE \
   --jscomp_error checkTypes \
   --jscomp_error conformanceViolations \
   --jscomp_error functionParams \
@@ -75,7 +74,11 @@ for pkg in $CLOSURIZED_PKGS; do
   --jscomp_error nonStandardJsDocs \
   --jscomp_error suspiciousCode \
   --jscomp_error uselessCode \
-  --jscomp_off accessControls
+  --jscomp_off underscore
+  --create_source_map %outname%.map
+  --source_map_include_content
+  --output_wrapper_file $CLOSURE_TMP/wrapper.txt
+  --js_output_file $CLOSURE_TMP/${pkg}_test.js
   "
   $CMD
 
