@@ -111,7 +111,10 @@ function transform(srcFile, rootDir) {
       ExportNamedDeclaration(path) {
         const properties = [];
         path.node.specifiers.forEach((specifier) => {
-          properties.push(t.objectProperty(specifier.exported, specifier.exported, false, true, []));
+          // Hack to handle ripple re-exporting util. Is there a better way to handle this?
+          if (specifier.exported.name != 'util') {
+            properties.push(t.objectProperty(specifier.exported, specifier.exported, false, true, []));
+          }
         });
         const right = t.objectExpression(properties);
         const expression = t.assignmentExpression('=', t.identifier('exports'), right);
