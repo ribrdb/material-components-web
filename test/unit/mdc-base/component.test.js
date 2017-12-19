@@ -13,13 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {MDCComponent} from '../../../packages/mdc-base';
 
 import {assert} from 'chai';
 import td from 'testdouble';
 
-import {MDCComponent} from '../../../packages/mdc-base';
 
 class FakeComponent extends MDCComponent {
+  constructor(...args) {
+    super(...args);
+    this.initializeArgs=undefined;
+    this.initializeComesBeforeFoundation=undefined;
+    this.synced=undefined;
+  }
   get root() {
     return this.root_;
   }
@@ -94,8 +100,10 @@ test('calls initialSyncWithDOM() when initialized', () => {
   assert.isOk(f.synced);
 });
 
+class NoInitialSyncComponent extends MDCComponent { }
+
 test('provides a default initialSyncWithDOM() no-op if none provided by subclass', () => {
-  assert.doesNotThrow(MDCComponent.prototype.initialSyncWithDOM.bind({}));
+  assert.doesNotThrow(MDCComponent.prototype.initialSyncWithDOM.bind(new NoInitialSyncComponent()));
 });
 
 test("provides a default destroy() method which calls the foundation's destroy() method", () => {
@@ -167,7 +175,7 @@ test('#emit dispatches a custom event with the supplied data where custom events
   root.addEventListener(type, handler);
 
   const {CustomEvent} = window;
-  window.CustomEvent = undefined;
+  window['CustomEvent'] = undefined;
   try {
     f.emit(type, data);
   } finally {

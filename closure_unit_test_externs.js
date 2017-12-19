@@ -25,18 +25,17 @@ const td = {
    */
   object(o) {},
   /**
-   * @template T
-   * @param {T} o
-   * @return {T}
+   * @param {string} name
+   * @return {!Function}
    */
-  func(o) {},
+  func(name) {},
   /** @param {...*} args */
   callback(args) {},
   /** @param {...*} args */
   verify(args) {},
   /**
    * @param {...*} args
-   * @return {td.Stubber}
+   * @return {!td.Stubber}
    */
   when(args) {},
 };
