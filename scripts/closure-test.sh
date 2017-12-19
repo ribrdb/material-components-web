@@ -54,7 +54,7 @@ echo ''
 
 set +e
 for pkg in $CLOSURIZED_PKGS; do
-  echo "(function(){%output%)).call(this);//# sourceMappingURL=${pkg}_test.js.map" >$CLOSURE_TMP/wrapper.txt
+  echo "(function(){%output%}).call(this);//# sourceMappingURL=${pkg}_test.js.map" >$CLOSURE_TMP/wrapper.txt
   # Note that the jscomp_error flags turn all default warnings into errors, so that
   # closure exits with a non-zero status if any of them are caught.
   CMD="java -jar node_modules/google-closure-compiler/compiler.jar \
@@ -74,11 +74,11 @@ for pkg in $CLOSURIZED_PKGS; do
   --jscomp_error nonStandardJsDocs \
   --jscomp_error suspiciousCode \
   --jscomp_error uselessCode \
-  --jscomp_off underscore
-  --create_source_map %outname%.map
-  --source_map_include_content
-  --output_wrapper_file $CLOSURE_TMP/wrapper.txt
-  --js_output_file $CLOSURE_TMP/${pkg}_test.js
+  --jscomp_off underscore \
+  --create_source_map %outname%.map \
+  --source_map_include_content \
+  --output_wrapper_file $CLOSURE_TMP/wrapper.txt \
+  --js_output_file $CLOSURE_TMP/${pkg}_test.js \
   "
   $CMD
 
