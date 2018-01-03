@@ -65,11 +65,11 @@ let PointType;
  * @enum {string}
  */
 const DEACTIVATION_ACTIVATION_PAIRS = {
-  mouseup: 'mousedown',
-  pointerup: 'pointerdown',
-  touchend: 'touchstart',
-  keyup: 'keydown',
-  blur: 'focus',
+  'mouseup': 'mousedown',
+  'pointerup': 'pointerdown',
+  'touchend': 'touchstart',
+  'keyup': 'keydown',
+  'blur': 'focus',
 };
 
 /**
