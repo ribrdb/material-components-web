@@ -13,18 +13,62 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {MDCComponent} from '../../../packages/mdc-base';
+
+ import {MDCComponent, MDCFoundation} from '../../../packages/mdc-base';
 
 import {assert} from 'chai';
 import td from 'testdouble';
 
+class MyFoundation extends MDCFoundation {
+  /**
+   * @param {Function} init
+   */
+  constructor(init) {
+    super();
+    this.init_ = init;
+    this.isDefaultFoundation = false;
+    this.rootElementAtTimeOfCall = null;
+  }
 
-class FakeComponent extends MDCComponent {
+  /** @inheritDoc */
+  init() {
+    if (this.init_) {
+      this.init_();
+    }
+  }
+}
+
+class MyDestroyableFoundation extends MyFoundation {
+  /**
+   * @param {Function} init
+   * @param {Function} destroy
+   */
+  constructor(init, destroy) {
+    super(init);
+    this.destroy_ = destroy;
+  }
+
+  /** @inheritDoc */
+  destroy() {
+    if (this.destroy_) {
+      this.destroy_();
+    }
+  }
+
+}
+
+class SimpleComponent extends MDCComponent {
+  getDefaultFoundation() {
+    const defaultFoundation = td.object(new MyFoundation(()=>{}));
+    defaultFoundation.isDefaultFoundation = true;
+    defaultFoundation.rootElementAtTimeOfCall = this.root_;
+    return defaultFoundation;
+  }
+}
+
+class FakeComponent extends SimpleComponent {
   constructor(...args) {
     super(...args);
-    this.initializeArgs=undefined;
-    this.initializeComesBeforeFoundation=undefined;
-    this.synced=undefined;
   }
   get root() {
     return this.root_;
@@ -32,15 +76,6 @@ class FakeComponent extends MDCComponent {
 
   get foundation() {
     return this.foundation_;
-  }
-
-  getDefaultFoundation() {
-    const defaultFoundation = td.object({
-      isDefaultFoundation: true,
-      init: () => {},
-    });
-    defaultFoundation.rootElementAtTimeOfCall = this.root_;
-    return defaultFoundation;
   }
 
   initialize(...args) {
@@ -52,6 +87,12 @@ class FakeComponent extends MDCComponent {
     this.synced = true;
   }
 }
+/** @public */
+FakeComponent.prototype.initializeArgs;
+/** @public */
+FakeComponent.prototype.initializeComesBeforeFoundation;
+/** @public */
+FakeComponent.prototype.synced;
 
 suite('MDCComponent');
 
@@ -69,7 +110,7 @@ test('takes a root node constructor param and assigns it to the "root_" property
 
 test('takes an optional foundation constructor param and assigns it to the "foundation_" property', () => {
   const root = document.createElement('div');
-  const foundation = {init: () => {}};
+  const foundation = td.object(new MyFoundation(()=>{}));
   const f = new FakeComponent(root, foundation);
   assert.equal(f.foundation, foundation);
 });
@@ -82,7 +123,7 @@ test('assigns the result of "getDefaultFoundation()" to "foundation_" by default
 
 test("calls the foundation's init() method within the constructor", () => {
   const root = document.createElement('div');
-  const foundation = td.object({init: () => {}});
+  const foundation = td.object(new MyFoundation(()=>{}));
   // Testing side effects of constructor
   // eslint-disable-next-line no-new
   new FakeComponent(root, foundation);
@@ -100,15 +141,13 @@ test('calls initialSyncWithDOM() when initialized', () => {
   assert.isOk(f.synced);
 });
 
-class NoInitialSyncComponent extends MDCComponent { }
-
 test('provides a default initialSyncWithDOM() no-op if none provided by subclass', () => {
-  assert.doesNotThrow(MDCComponent.prototype.initialSyncWithDOM.bind(new NoInitialSyncComponent()));
+  assert.doesNotThrow(MDCComponent.prototype.initialSyncWithDOM.bind(new SimpleComponent()));
 });
 
 test("provides a default destroy() method which calls the foundation's destroy() method", () => {
   const root = document.createElement('div');
-  const foundation = td.object({init: () => {}, destroy: () => {}});
+  const foundation = td.object(new MyDestroyableFoundation(()=>{}, ()=>{}));
   const f = new FakeComponent(root, foundation);
   f.destroy();
   td.verify(foundation.destroy());
