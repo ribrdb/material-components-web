@@ -22,12 +22,12 @@ import {cssClasses, strings} from '../../../packages/mdc-form-field/constants';
 import {verifyDefaultAdapter} from '../helpers/foundation';
 
 test('exports cssClasses', () => {
-  assert.isOk('cssClasses' in MDCFormFieldFoundation);
+  // assert.isOk('cssClasses' in MDCFormFieldFoundation);
   assert.deepEqual(MDCFormFieldFoundation.cssClasses, cssClasses);
 });
 
 test('exports strings', () => {
-  assert.isOk('strings' in MDCFormFieldFoundation);
+  // assert.isOk('strings' in MDCFormFieldFoundation);
   assert.deepEqual(MDCFormFieldFoundation.strings, strings);
 });
 

@@ -29,11 +29,11 @@ const {strings, cssClasses} = MDCIconToggleFoundation;
 suite('MDCIconToggleFoundation');
 
 test('exports strings', () => {
-  assert.isOk('strings' in MDCIconToggleFoundation);
+  assert.isOk(MDCIconToggleFoundation.strings);
 });
 
 test('exports cssClasses', () => {
-  assert.isOk('cssClasses' in MDCIconToggleFoundation);
+  assert.isOk(MDCIconToggleFoundation.cssClasses);
 });
 
 test('defaultAdapter returns a complete adapter implementation', () => {
@@ -250,18 +250,18 @@ test('#destroy deregisters all interaction handlers', () => {
   td.verify(mockAdapter.deregisterInteractionHandler('keyup', isA(Function)));
 });
 
-const captureHandlers = (adapter) => baseCaptureHandlers(adapter, 'registerInteractionHandler');
+const captureHandlers = (adapter) => baseCaptureHandlers(adapter.registerInteractionHandler);
 
 test('updates toggle state on click', () => {
   const {foundation, mockAdapter} = setupTest();
   const handlers = captureHandlers(mockAdapter);
   foundation.init();
 
-  handlers.click();
+  handlers['click']();
   assert.isOk(foundation.isOn());
   td.verify(mockAdapter.setAttr(strings.ARIA_PRESSED, 'true'));
 
-  handlers.click();
+  handlers['click']();
   assert.isNotOk(foundation.isOn());
   td.verify(mockAdapter.setAttr(strings.ARIA_PRESSED, 'false'));
 });
@@ -271,9 +271,9 @@ test('broadcasts change notification on click', () => {
   const handlers = captureHandlers(mockAdapter);
   foundation.init();
 
-  handlers.click();
+  handlers['click']();
   td.verify(mockAdapter.notifyChange({isOn: true}));
-  handlers.click();
+  handlers['click']();
   td.verify(mockAdapter.notifyChange({isOn: false}));
 });
 
@@ -283,7 +283,7 @@ test('prevents default action on spacebar keydown', () => {
   const evt = {preventDefault: td.func('evt.preventDefault'), key: 'Space'};
   foundation.init();
 
-  handlers.keydown(evt);
+  handlers['keydown'](evt);
   td.verify(evt.preventDefault());
 });
 
@@ -293,7 +293,7 @@ test('prevents default action on spacebar keydown using keyCode', () => {
   const evt = {preventDefault: td.func('evt.preventDefault'), keyCode: 32};
   foundation.init();
 
-  handlers.keydown(evt);
+  handlers['keydown'](evt);
   td.verify(evt.preventDefault());
 });
 
@@ -303,7 +303,7 @@ test('flips isKeyboardActivated() to true on spacebar keydown', () => {
   const evt = {preventDefault: td.func('evt.preventDefault'), key: 'Space'};
   foundation.init();
 
-  handlers.keydown(evt);
+  handlers['keydown'](evt);
   assert.isOk(foundation.isKeyboardActivated());
 });
 
@@ -313,7 +313,7 @@ test('flips isKeyboardActivated() to true on spacebar keydown using keyCode', ()
   const evt = {preventDefault: td.func('evt.preventDefault'), keyCode: 32};
   foundation.init();
 
-  handlers.keydown(evt);
+  handlers['keydown'](evt);
   assert.isOk(foundation.isKeyboardActivated());
 });
 
@@ -322,7 +322,7 @@ test('triggers toggle on spacebar keyup', () => {
   const handlers = captureHandlers(mockAdapter);
   foundation.init();
 
-  handlers.keyup({key: 'Space'});
+  handlers['keyup']({key: 'Space'});
   assert.isOk(foundation.isOn());
   td.verify(mockAdapter.setAttr(strings.ARIA_PRESSED, 'true'));
   td.verify(mockAdapter.notifyChange({isOn: true}));
@@ -333,7 +333,7 @@ test('triggers toggle on spacebar keyup using keyCode', () => {
   const handlers = captureHandlers(mockAdapter);
   foundation.init();
 
-  handlers.keyup({keyCode: 32});
+  handlers['keyup']({keyCode: 32});
   assert.isOk(foundation.isOn());
   td.verify(mockAdapter.setAttr(strings.ARIA_PRESSED, 'true'));
   td.verify(mockAdapter.notifyChange({isOn: true}));
@@ -345,10 +345,10 @@ test('flips isKeyboardActivated() back to false on spacebar keydown', () => {
   const evt = {preventDefault: td.func('evt.preventDefault'), key: 'Space'};
   foundation.init();
 
-  handlers.keydown(evt);
+  handlers['keydown'](evt);
   assert.isOk(foundation.isKeyboardActivated(), 'isKeyboardActivated sanity check');
 
-  handlers.keyup(evt);
+  handlers['keyup'](evt);
   assert.isNotOk(foundation.isKeyboardActivated());
 });
 
@@ -358,9 +358,9 @@ test('flips isKeyboardActivated() back to false on spacebar keydown using keyCod
   const evt = {preventDefault: td.func('evt.preventDefault'), keyCode: 32};
   foundation.init();
 
-  handlers.keydown(evt);
+  handlers['keydown'](evt);
   assert.isOk(foundation.isKeyboardActivated(), 'isKeyboardActivated sanity check');
 
-  handlers.keyup(evt);
+  handlers['keyup'](evt);
   assert.isNotOk(foundation.isKeyboardActivated());
 });

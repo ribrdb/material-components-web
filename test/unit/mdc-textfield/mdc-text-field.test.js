@@ -23,7 +23,7 @@ import bel from 'bel';
 import td from 'testdouble';
 import {assert} from 'chai';
 
-const {cssClasses} = MDCTextFieldFoundation;
+const cssClasses = MDCTextFieldFoundation.cssClasses;
 
 const getFixture = () => bel`
   <div class="mdc-text-field">

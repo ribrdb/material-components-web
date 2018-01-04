@@ -32,7 +32,7 @@ function setupTest({tabIndex = undefined, useInnerIconElement = false} = {}) {
   if (useInnerIconElement) {
     const icon = document.createElement('i');
     icon.id = 'icon';
-    root.dataset.iconInnerSelector = `#${icon.id}`;
+    root.dataset['iconInnerSelector'] = `#${icon.id}`;
     root.appendChild(icon);
   }
   if (tabIndex !== undefined) {
@@ -115,10 +115,20 @@ test('set/get disabled to true, then false', () => {
   assert.equal(root.tabIndex, 0, 'element\'s tabIndex should be the same value it originally had');
 });
 
+class MyFoundation extends MDCIconToggleFoundation {
+  /** @inheritDoc */
+  setDisabled(isDisabled) {
+    console.log(`setDisabled(${isDisabled})`);
+  }
+  /** @inheritDoc */
+  refreshToggleData() {
+    console.log('refreshToggleData');
+  }
+}
+
 test('#refreshToggleData proxies to foundation.refreshToggleData()', () => {
-  const MockIconToggleFoundation = td.constructor(MDCIconToggleFoundation);
+  const foundation = td.object(new MyFoundation);
   const root = document.createElement('i');
-  const foundation = new MockIconToggleFoundation();
   const component = new MDCIconToggle(root, foundation);
   component.refreshToggleData();
   td.verify(foundation.refreshToggleData());

@@ -19,6 +19,7 @@
  */
 import {setupFoundationTest} from '../helpers/setup';
 import {verifyDefaultAdapter} from '../helpers/foundation';
+import MDCCheckboxAdapter from '../../../packages/mdc-checkbox/adapter';
 import MDCCheckboxFoundation from '../../../packages/mdc-checkbox/foundation';
 import {cssClasses, strings, numbers} from '../../../packages/mdc-checkbox/constants';
 
@@ -34,8 +35,9 @@ const DESC_UNDEFINED = {
   configurable: true,
 };
 
-function setupTest() {
-  const {foundation, mockAdapter} = setupFoundationTest(MDCCheckboxFoundation);
+/** @param {*=} adapter */
+function setupTest(adapter) {
+  const {foundation, mockAdapter} = setupFoundationTest(MDCCheckboxFoundation, adapter);
   const nativeControl = bel`<input type="checkbox">`;
   td.when(mockAdapter.getNativeControl()).thenReturn(nativeControl);
   return {foundation, mockAdapter, nativeControl};
@@ -69,9 +71,12 @@ function withMockCheckboxDescriptorReturning(descriptor, runTests) {
 //   representing the state of the native control after it was changed. E.g.
 //   `change({checked: true, indeterminate: false})` simulates a change event as the result of a checkbox
 //   being checked.
-function setupChangeHandlerTest() {
+/**
+ * @param {*=} adapter 
+ */
+function setupChangeHandlerTest(adapter) {
   let changeHandler;
-  const {foundation, mockAdapter} = setupTest();
+  const {foundation, mockAdapter} = setupTest(adapter);
   const {isA} = td.matchers;
   td.when(mockAdapter.registerChangeHandler(isA(Function))).thenDo(function(handler) {
     changeHandler = handler;
@@ -417,8 +422,15 @@ test('change handler debounces changes within the animation end delay period', (
   clock.uninstall();
 });
 
+class LayoutAdapter extends MDCCheckboxAdapter {
+  /** @inheritDoc */
+  forceLayout() {
+    console.log('forceLayout');
+  }
+}
+
 test('change handler triggers layout for changes within the same frame to correctly restart anims', () => {
-  const {mockAdapter, change} = setupChangeHandlerTest();
+  const {mockAdapter, change} = setupChangeHandlerTest(new LayoutAdapter());
 
   change({checked: true, indeterminate: false});
   td.verify(mockAdapter.forceLayout(), {times: 0});

@@ -48,7 +48,7 @@ test('default adapter returns a complete adapter implementation', () => {
 function setupTest() {
   const {foundation, mockAdapter} = setupFoundationTest(MDCTabBarFoundation);
   const {UPGRADED} = MDCTabBarFoundation.cssClasses;
-  const tabHandlers = captureHandlers(mockAdapter, 'bindOnMDCTabSelectedEvent');
+  const tabHandlers = captureHandlers(mockAdapter.bindOnMDCTabSelectedEvent);
 
   return {foundation, mockAdapter, UPGRADED, tabHandlers};
 }

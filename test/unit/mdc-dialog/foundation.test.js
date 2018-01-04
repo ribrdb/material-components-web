@@ -198,7 +198,7 @@ test('#cancel calls notifyCancel when shouldNotify is set to true', () => {
 
 test('on dialog surface click closes and notifies acceptance if event target is the accept button', () => {
   const {foundation, mockAdapter} = setupTest();
-  const handlers = captureHandlers(mockAdapter, 'registerSurfaceInteractionHandler');
+  const handlers = captureHandlers(mockAdapter.registerSurfaceInteractionHandler);
   const evt = {
     stopPropagation: () => {},
     target: {},
@@ -213,7 +213,7 @@ test('on dialog surface click closes and notifies acceptance if event target is 
 
 test('on dialog surface click closes and notifies cancellation if event target is the cancel button', () => {
   const {foundation, mockAdapter} = setupTest();
-  const handlers = captureHandlers(mockAdapter, 'registerSurfaceInteractionHandler');
+  const handlers = captureHandlers(mockAdapter.registerSurfaceInteractionHandler);
   const evt = {
     stopPropagation: () => {},
     target: {},
@@ -229,7 +229,7 @@ test('on dialog surface click closes and notifies cancellation if event target i
 test('on dialog surface click does not close or notify if the event target is not the ' +
      'accept or cancel button', () => {
   const {foundation, mockAdapter} = setupTest();
-  const handlers = captureHandlers(mockAdapter, 'registerSurfaceInteractionHandler');
+  const handlers = captureHandlers(mockAdapter.registerSurfaceInteractionHandler);
   const evt = {
     target: {},
     stopPropagation: () => {},
@@ -245,7 +245,7 @@ test('on dialog surface click does not close or notify if the event target is no
 
 test('on click closes the dialog and notifies cancellation if event target is the backdrop', () => {
   const {foundation, mockAdapter} = setupTest();
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const evt = {
     stopPropagation: () => {},
     target: {},
@@ -262,7 +262,7 @@ test('on click closes the dialog and notifies cancellation if event target is th
 
 test('on click does not close or notify cancellation if event target is the surface', () => {
   const {foundation, mockAdapter} = setupTest();
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const evt = {
     stopPropagation: () => {},
     target: {},

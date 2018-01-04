@@ -238,7 +238,7 @@ test('#isOpen returns false when the drawer is initiated without the open class 
 
 test('on touch start updates the drawer to the touch target coordinates', () => {
   const {foundation, mockAdapter} = setupTest();
-  const handlers = captureHandlers(mockAdapter, 'registerDrawerInteractionHandler');
+  const handlers = captureHandlers(mockAdapter.registerDrawerInteractionHandler);
   const raf = createMockRaf();
   td.when(mockAdapter.hasClass('mdc-slidable-drawer--open')).thenReturn(true);
   td.when(mockAdapter.getDrawerWidth()).thenReturn(500);
@@ -255,7 +255,7 @@ test('on touch start updates the drawer to the touch target coordinates', () => 
 
 test('on touch start does not update the drawer when drawer not open', () => {
   const {foundation, mockAdapter} = setupTest();
-  const handlers = captureHandlers(mockAdapter, 'registerDrawerInteractionHandler');
+  const handlers = captureHandlers(mockAdapter.registerDrawerInteractionHandler);
   const raf = createMockRaf();
   td.when(mockAdapter.hasClass('mdc-slidable-drawer--open')).thenReturn(false);
   td.when(mockAdapter.getDrawerWidth()).thenReturn(500);
@@ -272,7 +272,7 @@ test('on touch start does not update the drawer when drawer not open', () => {
 
 test('on touch start works for pointer events', () => {
   const {foundation, mockAdapter} = setupTest();
-  const handlers = captureHandlers(mockAdapter, 'registerDrawerInteractionHandler');
+  const handlers = captureHandlers(mockAdapter.registerDrawerInteractionHandler);
   const raf = createMockRaf();
   td.when(mockAdapter.hasClass('mdc-slidable-drawer--open')).thenReturn(true);
   td.when(mockAdapter.getDrawerWidth()).thenReturn(500);
@@ -290,7 +290,7 @@ test('on touch start works for pointer events', () => {
 
 test('on touch start does not update the drawer when pointertype != touch', () => {
   const {foundation, mockAdapter} = setupTest();
-  const handlers = captureHandlers(mockAdapter, 'registerDrawerInteractionHandler');
+  const handlers = captureHandlers(mockAdapter.registerDrawerInteractionHandler);
   const raf = createMockRaf();
   td.when(mockAdapter.hasClass('mdc-slidable-drawer--open')).thenReturn(true);
   td.when(mockAdapter.getDrawerWidth()).thenReturn(500);
@@ -308,8 +308,8 @@ test('on touch start does not update the drawer when pointertype != touch', () =
 
 test('on touch move updates currentX causing the drawer to update', () => {
   const {foundation, mockAdapter} = setupTest();
-  const drawerHandlers = captureHandlers(mockAdapter, 'registerDrawerInteractionHandler');
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const drawerHandlers = captureHandlers(mockAdapter.registerDrawerInteractionHandler);
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const raf = createMockRaf();
   td.when(mockAdapter.hasClass('mdc-slidable-drawer--open')).thenReturn(true);
   td.when(mockAdapter.getDrawerWidth()).thenReturn(500);
@@ -340,8 +340,8 @@ test('on touch move updates currentX causing the drawer to update', () => {
 
 test('on touch move does not allow the drawer to move past its width', () => {
   const {foundation, mockAdapter} = setupTest();
-  const drawerHandlers = captureHandlers(mockAdapter, 'registerDrawerInteractionHandler');
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const drawerHandlers = captureHandlers(mockAdapter.registerDrawerInteractionHandler);
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const raf = createMockRaf();
   td.when(mockAdapter.hasClass('mdc-slidable-drawer--open')).thenReturn(true);
   td.when(mockAdapter.getDrawerWidth()).thenReturn(500);
@@ -364,8 +364,8 @@ test('on touch move does not allow the drawer to move past its width', () => {
 
 test('on touch move does not allow the drawer to move past its width in RTL', () => {
   const {foundation, mockAdapter} = setupTest();
-  const drawerHandlers = captureHandlers(mockAdapter, 'registerDrawerInteractionHandler');
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const drawerHandlers = captureHandlers(mockAdapter.registerDrawerInteractionHandler);
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const raf = createMockRaf();
   td.when(mockAdapter.hasClass('mdc-slidable-drawer--open')).thenReturn(true);
   td.when(mockAdapter.getDrawerWidth()).thenReturn(500);
@@ -389,8 +389,8 @@ test('on touch move does not allow the drawer to move past its width in RTL', ()
 
 test('on touch move works for pointer events', () => {
   const {foundation, mockAdapter} = setupTest();
-  const drawerHandlers = captureHandlers(mockAdapter, 'registerDrawerInteractionHandler');
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const drawerHandlers = captureHandlers(mockAdapter.registerDrawerInteractionHandler);
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const raf = createMockRaf();
   td.when(mockAdapter.hasClass('mdc-slidable-drawer--open')).thenReturn(true);
   td.when(mockAdapter.getDrawerWidth()).thenReturn(500);
@@ -415,8 +415,8 @@ test('on touch move works for pointer events', () => {
 
 test('on touch move does not update the drawer when pointertype != touch', () => {
   const {foundation, mockAdapter} = setupTest();
-  const drawerHandlers = captureHandlers(mockAdapter, 'registerDrawerInteractionHandler');
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const drawerHandlers = captureHandlers(mockAdapter.registerDrawerInteractionHandler);
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const raf = createMockRaf();
   td.when(mockAdapter.hasClass('mdc-slidable-drawer--open')).thenReturn(true);
   td.when(mockAdapter.getDrawerWidth()).thenReturn(500);
@@ -440,8 +440,8 @@ test('on touch move does not update the drawer when pointertype != touch', () =>
 
 test('on touch end resets touch update styles', () => {
   const {foundation, mockAdapter} = setupTest();
-  const drawerHandlers = captureHandlers(mockAdapter, 'registerDrawerInteractionHandler');
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const drawerHandlers = captureHandlers(mockAdapter.registerDrawerInteractionHandler);
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const raf = createMockRaf();
   td.when(mockAdapter.hasClass('mdc-slidable-drawer--open')).thenReturn(true);
   td.when(mockAdapter.getDrawerWidth()).thenReturn(500);
@@ -459,8 +459,8 @@ test('on touch end resets touch update styles', () => {
 
 test('on touch end does not update drawer', () => {
   const {foundation, mockAdapter} = setupTest();
-  const drawerHandlers = captureHandlers(mockAdapter, 'registerDrawerInteractionHandler');
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const drawerHandlers = captureHandlers(mockAdapter.registerDrawerInteractionHandler);
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const raf = createMockRaf();
   td.when(mockAdapter.hasClass('mdc-slidable-drawer--open')).thenReturn(true);
   td.when(mockAdapter.getDrawerWidth()).thenReturn(500);
@@ -481,8 +481,8 @@ test('on touch end does not update drawer', () => {
 
 test('on touch end closes the drawer if moved more than 50% and sends close event', () => {
   const {foundation, mockAdapter} = setupTest();
-  const drawerHandlers = captureHandlers(mockAdapter, 'registerDrawerInteractionHandler');
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const drawerHandlers = captureHandlers(mockAdapter.registerDrawerInteractionHandler);
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const raf = createMockRaf();
   td.when(mockAdapter.hasClass('mdc-slidable-drawer--open')).thenReturn(true);
   td.when(mockAdapter.getDrawerWidth()).thenReturn(500);
@@ -506,8 +506,8 @@ test('on touch end closes the drawer if moved more than 50% and sends close even
 
 test('on touch end keeps the drawer open if moved less than 50% but does not send open event', () => {
   const {foundation, mockAdapter} = setupTest();
-  const drawerHandlers = captureHandlers(mockAdapter, 'registerDrawerInteractionHandler');
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const drawerHandlers = captureHandlers(mockAdapter.registerDrawerInteractionHandler);
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const raf = createMockRaf();
   td.when(mockAdapter.hasClass('mdc-slidable-drawer--open')).thenReturn(true);
   td.when(mockAdapter.getDrawerWidth()).thenReturn(500);
@@ -531,8 +531,8 @@ test('on touch end keeps the drawer open if moved less than 50% but does not sen
 
 test('on touch end closes the drawer if moved more than 50% in RTL and sends close event', () => {
   const {foundation, mockAdapter} = setupTest();
-  const drawerHandlers = captureHandlers(mockAdapter, 'registerDrawerInteractionHandler');
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const drawerHandlers = captureHandlers(mockAdapter.registerDrawerInteractionHandler);
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const raf = createMockRaf();
   td.when(mockAdapter.hasClass('mdc-slidable-drawer--open')).thenReturn(true);
   td.when(mockAdapter.getDrawerWidth()).thenReturn(500);
@@ -557,8 +557,8 @@ test('on touch end closes the drawer if moved more than 50% in RTL and sends clo
 
 test('on touch end keeps the drawer open if moved less than 50% in RTL but does not send open event', () => {
   const {foundation, mockAdapter} = setupTest();
-  const drawerHandlers = captureHandlers(mockAdapter, 'registerDrawerInteractionHandler');
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const drawerHandlers = captureHandlers(mockAdapter.registerDrawerInteractionHandler);
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const raf = createMockRaf();
   td.when(mockAdapter.hasClass('mdc-slidable-drawer--open')).thenReturn(true);
   td.when(mockAdapter.getDrawerWidth()).thenReturn(500);
@@ -583,8 +583,8 @@ test('on touch end keeps the drawer open if moved less than 50% in RTL but does 
 
 test('on touch end works with pointer events', () => {
   const {foundation, mockAdapter} = setupTest();
-  const drawerHandlers = captureHandlers(mockAdapter, 'registerDrawerInteractionHandler');
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const drawerHandlers = captureHandlers(mockAdapter.registerDrawerInteractionHandler);
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const raf = createMockRaf();
   td.when(mockAdapter.hasClass('mdc-slidable-drawer--open')).thenReturn(true);
   td.when(mockAdapter.getDrawerWidth()).thenReturn(500);
@@ -612,8 +612,8 @@ test('on touch end works with pointer events', () => {
 
 test('on touch does nothing for non touch pointer events', () => {
   const {foundation, mockAdapter} = setupTest();
-  const drawerHandlers = captureHandlers(mockAdapter, 'registerDrawerInteractionHandler');
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const drawerHandlers = captureHandlers(mockAdapter.registerDrawerInteractionHandler);
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const raf = createMockRaf();
   td.when(mockAdapter.hasClass('mdc-slidable-drawer--open')).thenReturn(true);
   td.when(mockAdapter.getDrawerWidth()).thenReturn(500);

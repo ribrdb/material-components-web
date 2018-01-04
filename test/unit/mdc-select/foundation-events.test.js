@@ -40,8 +40,8 @@ function setupTest() {
   });
   td.when(mockAdapter.getWindowInnerHeight()).thenReturn(500);
   td.when(mockAdapter.getMenuElOffsetHeight()).thenReturn(100);
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
-  const menuHandlers = captureHandlers(mockAdapter, 'registerMenuInteractionHandler');
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
+  const menuHandlers = captureHandlers(mockAdapter.registerMenuInteractionHandler);
   foundation.init();
 
   return {foundation, mockAdapter, handlers, menuHandlers};
@@ -55,7 +55,7 @@ suite('MDCSelectFoundation - Events');
 
 test('on click opens the menu', () => {
   const {mockAdapter, handlers} = setupTest();
-  handlers.click(createEvent());
+  handlers['click'](createEvent());
   td.verify(mockAdapter.addClass(cssClasses.OPEN));
   td.verify(mockAdapter.openMenu(0));
 });
@@ -63,7 +63,7 @@ test('on click opens the menu', () => {
 test('on click does not open the menu if it is already open', () => {
   const {mockAdapter, handlers} = setupTest();
   td.when(mockAdapter.isMenuOpen()).thenReturn(true);
-  handlers.click(createEvent());
+  handlers['click'](createEvent());
   td.verify(mockAdapter.addClass(cssClasses.OPEN), {times: 0});
   td.verify(mockAdapter.openMenu(0), {times: 0});
 });
@@ -71,21 +71,21 @@ test('on click does not open the menu if it is already open', () => {
 test('on click opens the menu focused at the selected index, if any', () => {
   const {foundation, mockAdapter, handlers} = setupTest();
   foundation.setSelectedIndex(1);
-  handlers.click(createEvent());
+  handlers['click'](createEvent());
   td.verify(mockAdapter.openMenu(1));
 });
 
 test('on click cancels the event to prevent it from propagating', () => {
   const {handlers} = setupTest();
   const evt = createEvent();
-  handlers.click(evt);
+  handlers['click'](evt);
   td.verify(evt.preventDefault());
 });
 
 test('on ArrowUp keydown on the select itself opens the menu', () => {
   const {mockAdapter, handlers} = setupTest();
   const evt = createEvent({key: 'ArrowUp', eventPhase: Event.AT_TARGET});
-  handlers.keydown(evt);
+  handlers['keydown'](evt);
   td.verify(mockAdapter.addClass(cssClasses.OPEN));
   td.verify(mockAdapter.openMenu(0));
   td.verify(evt.preventDefault());
@@ -94,21 +94,21 @@ test('on ArrowUp keydown on the select itself opens the menu', () => {
 test('on ArrowUp keydown works with keyCode', () => {
   const {mockAdapter, handlers} = setupTest();
   const evt = createEvent({keyCode: 38, eventPhase: Event.AT_TARGET});
-  handlers.keydown(evt);
+  handlers['keydown'](evt);
   td.verify(mockAdapter.addClass(cssClasses.OPEN));
 });
 
 test('on ArrowUp keydown does not open the menu on bubbled events', () => {
   const {mockAdapter, handlers} = setupTest();
   const evt = createEvent({key: 'ArrowUp', eventPhase: Event.BUBBLING_PHASE});
-  handlers.keydown(evt);
+  handlers['keydown'](evt);
   td.verify(mockAdapter.addClass(cssClasses.OPEN), {times: 0});
 });
 
 test('on ArrowDown keydown on the select itself opens the menu', () => {
   const {mockAdapter, handlers} = setupTest();
   const evt = createEvent({key: 'ArrowDown', eventPhase: Event.AT_TARGET});
-  handlers.keydown(evt);
+  handlers['keydown'](evt);
   td.verify(mockAdapter.addClass(cssClasses.OPEN));
   td.verify(mockAdapter.openMenu(0));
   td.verify(evt.preventDefault());
@@ -117,35 +117,35 @@ test('on ArrowDown keydown on the select itself opens the menu', () => {
 test('on ArrowDown keydown works with keyCode', () => {
   const {mockAdapter, handlers} = setupTest();
   const evt = createEvent({keyCode: 40, eventPhase: Event.AT_TARGET});
-  handlers.keydown(evt);
+  handlers['keydown'](evt);
   td.verify(mockAdapter.addClass(cssClasses.OPEN));
 });
 
 test('on ArrowDown keydown does not open the menu on bubbled events', () => {
   const {mockAdapter, handlers} = setupTest();
   const evt = createEvent({key: 'ArrowDown', eventPhase: Event.BUBBLING_PHASE});
-  handlers.keydown(evt);
+  handlers['keydown'](evt);
   td.verify(mockAdapter.addClass(cssClasses.OPEN), {times: 0});
 });
 
 test('on Space keydown prevents default to prevent page from scrolling', () => {
   const {handlers} = setupTest();
   const evt = createEvent({key: 'Space', eventPhase: Event.AT_TARGET});
-  handlers.keydown(evt);
+  handlers['keydown'](evt);
   td.verify(evt.preventDefault());
 });
 
 test('on Space keydown works with keyCode', () => {
   const {handlers} = setupTest();
   const evt = createEvent({keyCode: 32, eventPhase: Event.AT_TARGET});
-  handlers.keydown(evt);
+  handlers['keydown'](evt);
   td.verify(evt.preventDefault());
 });
 
 test('on Space keyup on the select itself opens the menu', () => {
   const {mockAdapter, handlers} = setupTest();
   const evt = createEvent({key: 'Space', eventPhase: Event.AT_TARGET});
-  handlers.keyup(evt);
+  handlers['keyup'](evt);
   td.verify(mockAdapter.addClass(cssClasses.OPEN));
   td.verify(mockAdapter.openMenu(0));
   td.verify(evt.preventDefault());
@@ -154,14 +154,14 @@ test('on Space keyup on the select itself opens the menu', () => {
 test('on Space keyup works with keyCode', () => {
   const {mockAdapter, handlers} = setupTest();
   const evt = createEvent({keyCode: 32, eventPhase: Event.AT_TARGET});
-  handlers.keyup(evt);
+  handlers['keyup'](evt);
   td.verify(mockAdapter.addClass(cssClasses.OPEN));
 });
 
 test('on Space keyup does not open the menu on bubbled events', () => {
   const {mockAdapter, handlers} = setupTest();
   const evt = createEvent({key: 'Space', eventPhase: Event.BUBBLING_PHASE});
-  handlers.keydown(evt);
+  handlers['keydown'](evt);
   td.verify(mockAdapter.addClass(cssClasses.OPEN), {times: 0});
 });
 
@@ -221,7 +221,7 @@ test('when opened the select positions the menu such that the selected option is
   const mockLocation = mockAdapter.computeBoundingRect();
   foundation.setSelectedIndex(1);
   td.when(mockAdapter.getOffsetTopForOptionAtIndex(1)).thenReturn(20);
-  handlers.click(createEvent());
+  handlers['click'](createEvent());
 
   td.verify(mockAdapter.setMenuElStyle('left', `${mockLocation.left}px`));
   td.verify(mockAdapter.setMenuElStyle('top', `${mockLocation.top - 20}px`));
@@ -231,7 +231,7 @@ test('when opened sets the transform-origin y-coord to be the offset top of the 
   const {foundation, mockAdapter, handlers} = setupTest();
   foundation.setSelectedIndex(1);
   td.when(mockAdapter.getOffsetTopForOptionAtIndex(1)).thenReturn(20);
-  handlers.click(createEvent());
+  handlers['click'](createEvent());
 
   td.verify(mockAdapter.setMenuElStyle('transform-origin', 'center 20px'));
 });
@@ -242,7 +242,7 @@ test('when opened clamps the menu position to the top of the window if it would 
   const mockLocation = mockAdapter.computeBoundingRect();
   foundation.setSelectedIndex(1);
   td.when(mockAdapter.getOffsetTopForOptionAtIndex(1)).thenReturn(mockLocation.top + 20);
-  handlers.click(createEvent());
+  handlers['click'](createEvent());
 
   td.verify(mockAdapter.setMenuElStyle('left', `${mockLocation.left}px`));
   td.verify(mockAdapter.setMenuElStyle('top', '0px'));
@@ -260,7 +260,7 @@ test('when opened clamps the menu position to the bottom of the window if it wou
     top: mockInnerHeight-40,
   });
   td.when(mockAdapter.getOffsetTopForOptionAtIndex(1)).thenReturn(20);
-  handlers.click(createEvent());
+  handlers['click'](createEvent());
 
   const mockLocation = mockAdapter.computeBoundingRect();
   td.verify(mockAdapter.setMenuElStyle('left', `${mockLocation.left}px`));
@@ -279,7 +279,7 @@ test('when opened clamps the menu position to the top of the window if it cannot
   // Bump off offsetHeight to simulate no good possible placement
   td.when(mockAdapter.getMenuElOffsetHeight()).thenReturn(mockMenuHeight + 10);
   td.when(mockAdapter.getOffsetTopForOptionAtIndex(1)).thenReturn(20);
-  handlers.click(createEvent());
+  handlers['click'](createEvent());
 
   const mockLocation = mockAdapter.computeBoundingRect();
   td.verify(mockAdapter.setMenuElStyle('left', `${mockLocation.left}px`));

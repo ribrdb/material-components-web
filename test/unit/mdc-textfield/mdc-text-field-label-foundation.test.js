@@ -26,7 +26,7 @@ const {cssClasses} = MDCTextFieldLabelFoundation;
 suite('MDCTextFieldLabelFoundation');
 
 test('exports cssClasses', () => {
-  assert.isOk('cssClasses' in MDCTextFieldLabelFoundation);
+  assert.isOk(MDCTextFieldLabelFoundation.cssClasses);
 });
 
 test('defaultAdapter returns a complete adapter implementation', () => {

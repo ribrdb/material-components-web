@@ -44,7 +44,7 @@ function testFoundation(desc, isCssVarsSupported, runTests) {
 }
 
 function captureRippleHandlers(adapter) {
-  const handlers = captureHandlers(adapter, 'registerInteractionHandler');
+  const handlers = captureHandlers(adapter.registerInteractionHandler);
   return handlers;
 }
 

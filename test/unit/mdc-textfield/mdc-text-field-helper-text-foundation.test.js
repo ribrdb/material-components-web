@@ -26,11 +26,11 @@ const {cssClasses} = MDCTextFieldHelperTextFoundation;
 suite('MDCTextFieldHelperTextFoundation');
 
 test('exports cssClasses', () => {
-  assert.isOk('cssClasses' in MDCTextFieldHelperTextFoundation);
+  assert.isOk(MDCTextFieldHelperTextFoundation.cssClasses);
 });
 
 test('exports strings', () => {
-  assert.isOk('strings' in MDCTextFieldHelperTextFoundation);
+  assert.isOk(MDCTextFieldHelperTextFoundation.strings);
 });
 
 test('defaultAdapter returns a complete adapter implementation', () => {

@@ -27,11 +27,11 @@ const {cssClasses} = MDCTextFieldFoundation;
 suite('MDCTextFieldFoundation');
 
 test('exports strings', () => {
-  assert.isOk('strings' in MDCTextFieldFoundation);
+  assert.isOk(MDCTextFieldFoundation.strings);
 });
 
 test('exports cssClasses', () => {
-  assert.isOk('cssClasses' in MDCTextFieldFoundation);
+  assert.isOk(MDCTextFieldFoundation.cssClasses);
 });
 
 test('defaultAdapter returns a complete adapter implementation', () => {
@@ -45,7 +45,36 @@ test('defaultAdapter returns a complete adapter implementation', () => {
 });
 
 const setupTest = () => {
-  const mockAdapter = td.object(MDCTextFieldFoundation.defaultAdapter);
+  const input = {
+    checkValidity: () => true,
+    value: '',
+    disabled: false,
+    badInput: false,
+  };
+  const adapter = Object.assign({}, MDCTextFieldFoundation.defaultAdapter, {
+    getNativeInput: () => {
+      return input;
+    },
+    registerInputInteractionHandler: () => {
+      console.log('registerInputInteractionHandler');
+    },
+    registerBottomLineEventHandler: () => {
+      console.log('registerBottomLineEventHandler');
+    },
+    registerTextFieldInteractionHandler: () => {
+      console.log('registerTextFieldInteractionHandler');
+    },
+    deregisterInputInteractionHandler: () => {
+      console.log('deregisterInputInteractionHandler');
+    },
+    deregisterBottomLineEventHandler: () => {
+      console.log('deregisterBottomLineEventHandler');
+    },
+    deregisterTextFieldInteractionHandler: () => {
+      console.log('deregisterTextFieldInteractionHandler');
+    },
+  });
+  const mockAdapter = td.object(adapter);
   const bottomLine = td.object({
     activate: () => {},
     deactivate: () => {},

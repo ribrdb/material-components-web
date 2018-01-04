@@ -240,8 +240,8 @@ test('#destroy deregisters all events registered within init()', () => {
   const {foundation, mockAdapter} = setupTest();
   td.when(mockAdapter.create2dRenderingContext()).thenReturn({});
   td.when(mockAdapter.getComputedStyleValue('font')).thenReturn('16px Times');
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
-  const menuHandlers = captureHandlers(mockAdapter, 'registerMenuInteractionHandler');
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
+  const menuHandlers = captureHandlers(mockAdapter.registerMenuInteractionHandler);
   foundation.init();
   foundation.destroy();
   Object.keys(handlers).forEach((type) => {

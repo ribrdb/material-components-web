@@ -32,10 +32,10 @@ testFoundation('runs deactivation UX on touchend after touchstart', ({foundation
   foundation.init();
   mockRaf.flush();
 
-  handlers.touchstart({changedTouches: [{pageX: 0, pageY: 0}]});
+  handlers['touchstart']({changedTouches: [{pageX: 0, pageY: 0}]});
   mockRaf.flush();
 
-  handlers.touchend();
+  handlers['touchend']();
   mockRaf.flush();
   clock.tick(DEACTIVATION_TIMEOUT_MS);
 
@@ -59,10 +59,10 @@ testFoundation('runs deactivation UX on pointerup after pointerdown', ({foundati
   foundation.init();
   mockRaf.flush();
 
-  handlers.pointerdown({pageX: 0, pageY: 0});
+  handlers['pointerdown']({pageX: 0, pageY: 0});
   mockRaf.flush();
 
-  handlers.pointerup();
+  handlers['pointerup']();
   mockRaf.flush();
   clock.tick(DEACTIVATION_TIMEOUT_MS);
 
@@ -83,10 +83,10 @@ testFoundation('runs deactivation UX on mouseup after mousedown', ({foundation, 
   foundation.init();
   mockRaf.flush();
 
-  handlers.mousedown({pageX: 0, pageY: 0});
+  handlers['mousedown']({pageX: 0, pageY: 0});
   mockRaf.flush();
 
-  handlers.mouseup();
+  handlers['mouseup']();
   mockRaf.flush();
   clock.tick(DEACTIVATION_TIMEOUT_MS);
 
@@ -110,10 +110,10 @@ testFoundation('runs deactivation on keyup after keydown when keydown makes surf
     foundation.init();
     mockRaf.flush();
 
-    handlers.keydown({key: 'Space'});
+    handlers['keydown']({key: 'Space'});
     mockRaf.flush();
 
-    handlers.keyup({key: 'Space'});
+    handlers['keyup']({key: 'Space'});
     mockRaf.flush();
     clock.tick(DEACTIVATION_TIMEOUT_MS);
 
@@ -137,10 +137,10 @@ testFoundation('does not run deactivation on keyup after keydown if keydown did 
     foundation.init();
     mockRaf.flush();
 
-    handlers.keydown({key: 'Space'});
+    handlers['keydown']({key: 'Space'});
     mockRaf.flush();
 
-    handlers.keyup({key: 'Space'});
+    handlers['keyup']({key: 'Space'});
     mockRaf.flush();
     clock.tick(DEACTIVATION_TIMEOUT_MS);
 
@@ -184,11 +184,11 @@ testFoundation('runs deactivation UX when activation UX timer finishes first (ac
     foundation.init();
     mockRaf.flush();
 
-    handlers.mousedown({pageX: 0, pageY: 0});
+    handlers['mousedown']({pageX: 0, pageY: 0});
     mockRaf.flush();
 
     clock.tick(DEACTIVATION_TIMEOUT_MS);
-    handlers.mouseup();
+    handlers['mouseup']();
     mockRaf.flush();
 
     td.verify(adapter.removeClass(cssClasses.BG_FOCUSED));
@@ -209,17 +209,17 @@ testFoundation('clears any pending deactivation UX timers when re-triggered', ({
   mockRaf.flush();
 
   // Trigger the first interaction
-  handlers.mousedown({pageX: 0, pageY: 0});
+  handlers['mousedown']({pageX: 0, pageY: 0});
   mockRaf.flush();
-  handlers.mouseup();
+  handlers['mouseup']();
   mockRaf.flush();
   // Simulate certain amount of delay between first and second interaction
   clock.tick(20);
 
   // Trigger the second interaction
-  handlers.mousedown({pageX: 0, pageY: 0});
+  handlers['mousedown']({pageX: 0, pageY: 0});
   mockRaf.flush();
-  handlers.mouseup();
+  handlers['mouseup']();
   mockRaf.flush();
 
   clock.tick(DEACTIVATION_TIMEOUT_MS);
@@ -245,9 +245,9 @@ testFoundation('clears any pending foreground deactivation class removal timers 
     mockRaf.flush();
 
     // Trigger the first interaction
-    handlers.mousedown({pageX: 0, pageY: 0});
+    handlers['mousedown']({pageX: 0, pageY: 0});
     mockRaf.flush();
-    handlers.mouseup();
+    handlers['mouseup']();
     mockRaf.flush();
 
     // Tick the clock such that the deactivation UX gets run, but _not_ so the foreground deactivation removal
@@ -259,7 +259,7 @@ testFoundation('clears any pending foreground deactivation class removal timers 
     td.verify(adapter.removeClass(cssClasses.FG_DEACTIVATION), {times: 1});
 
     // Trigger another activation
-    handlers.mousedown({pageX: 0, pageY: 0});
+    handlers['mousedown']({pageX: 0, pageY: 0});
     mockRaf.flush();
 
     // Tick the clock past the time when the initial foreground deactivation timer would have ran.
@@ -278,10 +278,10 @@ testFoundation('waits until activation UX timer runs before removing active fill
     foundation.init();
     mockRaf.flush();
 
-    handlers.mousedown({pageX: 0, pageY: 0});
+    handlers['mousedown']({pageX: 0, pageY: 0});
     mockRaf.flush();
 
-    handlers.mouseup();
+    handlers['mouseup']();
     mockRaf.flush();
     clock.tick(DEACTIVATION_TIMEOUT_MS - 1);
 
@@ -299,7 +299,7 @@ testFoundation('waits until actual deactivation UX is needed if animation finish
     foundation.init();
     mockRaf.flush();
 
-    handlers.mousedown({pageX: 0, pageY: 0});
+    handlers['mousedown']({pageX: 0, pageY: 0});
     mockRaf.flush();
     clock.tick(DEACTIVATION_TIMEOUT_MS);
 
@@ -317,10 +317,10 @@ testFoundation('removes BG_FOCUSED class immediately without waiting for animati
     foundation.init();
     mockRaf.flush();
 
-    handlers.mousedown({pageX: 0, pageY: 0});
+    handlers['mousedown']({pageX: 0, pageY: 0});
     mockRaf.flush();
 
-    handlers.mouseup();
+    handlers['mouseup']();
     mockRaf.flush();
 
     td.verify(adapter.removeClass(cssClasses.BG_FOCUSED));
@@ -335,13 +335,13 @@ testFoundation('only re-activates when there are no additional pointer events to
     mockRaf.flush();
 
     // Simulate Android 6 / Chrome latest event flow.
-    handlers.pointerdown({pageX: 0, pageY: 0});
+    handlers['pointerdown']({pageX: 0, pageY: 0});
     mockRaf.flush();
-    handlers.touchstart({changedTouches: [{pageX: 0, pageY: 0}]});
+    handlers['touchstart']({changedTouches: [{pageX: 0, pageY: 0}]});
     mockRaf.flush();
 
     clock.tick(DEACTIVATION_TIMEOUT_MS);
-    handlers.pointerup();
+    handlers['pointerup']();
     mockRaf.flush();
 
     // At this point, the deactivation UX should have run, since the initial activation was triggered by
@@ -350,7 +350,7 @@ testFoundation('only re-activates when there are no additional pointer events to
     td.verify(adapter.removeClass(cssClasses.FG_ACTIVATION), {times: 2});
     td.verify(adapter.addClass(cssClasses.FG_DEACTIVATION), {times: 1});
 
-    handlers.touchend();
+    handlers['touchend']();
     mockRaf.flush();
 
     // Verify that deactivation UX has not been run redundantly
@@ -359,19 +359,19 @@ testFoundation('only re-activates when there are no additional pointer events to
     td.verify(adapter.removeClass(cssClasses.FG_ACTIVATION), {times: 2});
     td.verify(adapter.addClass(cssClasses.FG_DEACTIVATION), {times: 1});
 
-    handlers.mousedown({pageX: 0, pageY: 0});
+    handlers['mousedown']({pageX: 0, pageY: 0});
     mockRaf.flush();
 
     // Verify that activation only happened once, at pointerdown
     td.verify(adapter.addClass(cssClasses.BG_ACTIVE_FILL), {times: 1});
     td.verify(adapter.addClass(cssClasses.FG_ACTIVATION), {times: 1});
 
-    handlers.mouseup();
+    handlers['mouseup']();
     mockRaf.flush();
     clock.tick(DEACTIVATION_TIMEOUT_MS);
 
     // Finally, verify that since mouseup happened, we can re-activate the ripple.
-    handlers.mousedown({pageX: 0, pageY: 0});
+    handlers['mousedown']({pageX: 0, pageY: 0});
     mockRaf.flush();
     td.verify(adapter.addClass(cssClasses.BG_ACTIVE_FILL), {times: 2});
     td.verify(adapter.addClass(cssClasses.FG_ACTIVATION), {times: 2});
@@ -385,9 +385,9 @@ testFoundation('ensures pointer event deactivation occurs even if activation rAF
     foundation.init();
     mockRaf.flush();
 
-    handlers.mousedown({pageX: 0, pageY: 0});
+    handlers['mousedown']({pageX: 0, pageY: 0});
     mockRaf.pendingFrames.shift();
-    handlers.mouseup();
+    handlers['mouseup']();
     mockRaf.flush();
     clock.tick(DEACTIVATION_TIMEOUT_MS);
 
@@ -402,9 +402,9 @@ testFoundation('ensures non-pointer event deactivation does not occurs even if a
     foundation.init();
     mockRaf.flush();
 
-    handlers.keydown({key: 'Space'});
+    handlers['keydown']({key: 'Space'});
     mockRaf.pendingFrames.shift();
-    handlers.keyup({key: 'Space'});
+    handlers['keyup']({key: 'Space'});
     mockRaf.flush();
     clock.tick(DEACTIVATION_TIMEOUT_MS);
 

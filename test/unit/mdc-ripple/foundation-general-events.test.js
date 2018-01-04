@@ -92,7 +92,7 @@ testFoundation('activates the background on focus', ({foundation, adapter, mockR
   foundation.init();
   mockRaf.flush();
 
-  handlers.focus();
+  handlers['focus']();
   mockRaf.flush();
   td.verify(adapter.addClass(cssClasses.BG_FOCUSED));
 });
@@ -102,7 +102,7 @@ testFoundation('deactivates the background on blur', ({foundation, adapter, mock
   foundation.init();
   mockRaf.flush();
 
-  handlers.blur();
+  handlers['blur']();
   mockRaf.flush();
   td.verify(adapter.removeClass(cssClasses.BG_FOCUSED));
 });

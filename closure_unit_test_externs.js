@@ -25,14 +25,22 @@ const td = {
    */
   object(o) {},
   /**
-   * @param {string} name
+   * @param {string=} name
    * @return {!Function}
    */
   func(name) {},
+  /**
+   * @param {string=} name
+   * @return {!Function}
+   */
+  function(name) {},
   /** @param {...*} args */
   callback(args) {},
-  /** @param {...*} args */
-  verify(args) {},
+  /**
+   * @param {*|undefined} a 
+   * @param {{times:(number|undefined),ignoreExtraArgs:(boolean|undefined)}=} opts
+   */
+  verify(a, opts) {},
   /**
    * @param {...*} args
    * @return {!td.Stubber}

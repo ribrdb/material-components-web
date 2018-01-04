@@ -31,8 +31,8 @@ export function setupEventTest() {
     foundation,
     mockAdapter,
     raf,
-    rootHandlers: captureHandlers(mockAdapter, 'registerInteractionHandler'),
-    thumbContainerHandlers: captureHandlers(mockAdapter, 'registerThumbContainerInteractionHandler'),
-    bodyHandlers: captureHandlers(mockAdapter, 'registerBodyInteractionHandler'),
+    rootHandlers: captureHandlers(mockAdapter.registerInteractionHandler),
+    thumbContainerHandlers: captureHandlers(mockAdapter.registerThumbContainerInteractionHandler),
+    bodyHandlers: captureHandlers(mockAdapter.registerBodyInteractionHandler),
   };
 }

@@ -25,11 +25,11 @@ import td from 'testdouble';
 suite('MDCRadioFoundation');
 
 test('exports cssClasses', () => {
-  assert.isOk('cssClasses' in MDCRadioFoundation);
+  assert.isOk(MDCRadioFoundation.cssClasses);
 });
 
 test('exports strings', () => {
-  assert.isOk('strings' in MDCRadioFoundation);
+  assert.isOk(MDCRadioFoundation.strings);
 });
 
 test('defaultAdapter returns a complete adapter implementation', () => {
@@ -37,12 +37,36 @@ test('defaultAdapter returns a complete adapter implementation', () => {
   const methods = Object.keys(defaultAdapter).filter((k) => typeof defaultAdapter[k] === 'function');
 
   assert.equal(methods.length, Object.keys(defaultAdapter).length, 'Every adapter key must be a function');
-  assert.deepEqual(methods, ['addClass', 'removeClass', 'getNativeControl']);
-  methods.forEach((m) => assert.doesNotThrow(defaultAdapter[m]));
+  const expectedMethods = [defaultAdapter.addClass, defaultAdapter.removeClass, defaultAdapter.getNativeControl];
+  assert.equal(methods.length, expectedMethods.length);
+  expectedMethods.forEach((m) => assert.doesNotThrow(m));
 });
 
+/** @implements {mdc.radio.MDCRadioAdapter} */
+class MyAdapter {
+  /** @param {string} className */
+  addClass(className) {
+    console.log(`addClasss(${className})`);
+  }
+
+  /** @param {string} className */
+  removeClass(className) {
+    console.log(`removeClass(${className})`);
+  }
+
+  /** @return {!MDCSelectionControlState} */
+  getNativeControl() {
+    console.log('removeClass');
+    return {
+      checked: false,
+      indeterminate: false,
+      disabled: false,
+    };
+  }
+}
+
 function setupTest() {
-  const mockAdapter = td.object(MDCRadioFoundation.defaultAdapter);
+  const mockAdapter = td.object(new MyAdapter());
   const foundation = new MDCRadioFoundation(mockAdapter);
   return {foundation, mockAdapter};
 }

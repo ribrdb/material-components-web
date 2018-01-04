@@ -27,8 +27,13 @@ function verifyDefaultAdapter(FoundationClass, expectedMethods) {
   const methods = Object.keys(defaultAdapter).filter((k) => typeof defaultAdapter[k] === 'function');
 
   assert.equal(methods.length, Object.keys(defaultAdapter).length, 'Every adapter key must be a function');
-  // Test for equality without requiring that the array be in a specific order
-  assert.deepEqual(methods.slice().sort(), expectedMethods.slice().sort());
+  if (COMPILED) {
+    assert.lengthOf(methods, expectedMethods.length);
+  } else {
+    // Test for equality without requiring that the array be in a specific order
+    assert.deepEqual(methods.slice().sort(), expectedMethods.slice().sort());
+  }
+
   // Test default methods
   methods.forEach((m) => assert.doesNotThrow(defaultAdapter[m]));
 }
@@ -40,9 +45,9 @@ function verifyDefaultAdapter(FoundationClass, expectedMethods) {
 // ```javascript
 // test('#init adds a click listener which adds a "foo" class', (t) => {
 //   const {foundation, mockAdapter} = setupTest();
-//   const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+//   const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
 //   foundation.init();
-//   handlers.click(/* you can pass event info in here */ {type: 'click'});
+//   handlers['click'](/* you can pass event info in here */ {type: 'click'});
 //   t.doesNotThrow(() => td.verify(mockAdapter.addClass('foo')));
 //   t.end();
 // });
@@ -50,10 +55,14 @@ function verifyDefaultAdapter(FoundationClass, expectedMethods) {
 //
 // Note that `handlerCaptureMethod` _must_ have a signature of `(string, EventListener) => any` in order to
 // be effective.
-function captureHandlers(adapter, handlerCaptureMethod) {
+/**
+ * @param {function(string, EventListener):*} func
+ * @suppress {checkTypes}
+ */
+function captureHandlers(func) {
   const {isA} = td.matchers;
   const handlers = {};
-  td.when(adapter[handlerCaptureMethod](isA(String), isA(Function))).thenDo((type, handler) => {
+  td.when(func(isA(String), isA(Function))).thenDo((type, handler) => {
     handlers[type] = (evtInfo = {}) => handler(Object.assign({type}, evtInfo));
   });
   return handlers;

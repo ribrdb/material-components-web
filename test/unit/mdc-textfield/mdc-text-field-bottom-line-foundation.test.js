@@ -26,11 +26,11 @@ const {cssClasses} = MDCTextFieldBottomLineFoundation;
 suite('MDCTextFieldBottomLineFoundation');
 
 test('exports cssClasses', () => {
-  assert.isOk('cssClasses' in MDCTextFieldBottomLineFoundation);
+  assert.isOk(MDCTextFieldBottomLineFoundation.cssClasses);
 });
 
 test('exports strings', () => {
-  assert.isOk('strings' in MDCTextFieldBottomLineFoundation);
+  assert.isOk(MDCTextFieldBottomLineFoundation.strings);
 });
 
 test('defaultAdapter returns a complete adapter implementation', () => {

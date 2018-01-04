@@ -24,7 +24,7 @@ import MDCTextFieldIconFoundation from '../../../packages/mdc-textfield/icon/fou
 suite('MDCTextFieldIconFoundation');
 
 test('exports strings', () => {
-  assert.isOk('strings' in MDCTextFieldIconFoundation);
+  assert.isOk(MDCTextFieldIconFoundation.strings);
 });
 
 test('defaultAdapter returns a complete adapter implementation', () => {

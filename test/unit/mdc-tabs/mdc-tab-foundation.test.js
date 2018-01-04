@@ -118,7 +118,7 @@ test('#preventsDefaultOnClick returns state of preventsDefaultOnClick', () => {
 
 test('#setPreventDefaultOnClick does not preventDefault if set to false', () => {
   const {foundation, mockAdapter} = setupTest();
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const evt = {
     preventDefault: td.func('evt.stopPropagation'),
   };
@@ -132,7 +132,7 @@ test('#setPreventDefaultOnClick does not preventDefault if set to false', () => 
 
 test('#setPreventDefaultOnClick calls preventDefault if set to true', () => {
   const {foundation, mockAdapter} = setupTest();
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const evt = {
     preventDefault: td.func('evt.stopPropagation'),
   };
@@ -147,7 +147,7 @@ test('#setPreventDefaultOnClick calls preventDefault if set to true', () => {
 test('#setPreventDefaultOnClick sets preventDefaultOnClick_ to true. Subsequent clicks ' +
   'call preventDefault()', () => {
   const {foundation, mockAdapter} = setupTest();
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const evt = {
     preventDefault: td.func('evt.stopPropagation'),
   };
@@ -162,7 +162,7 @@ test('#setPreventDefaultOnClick sets preventDefaultOnClick_ to true. Subsequent 
 test('#setPreventDefaultOnClick sets preventDefaultOnClick_ to false. Subsequent clicks ' +
   'do not call preventDefault()', () => {
   const {foundation, mockAdapter} = setupTest();
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const evt = {
     preventDefault: td.func('evt.stopPropagation'),
   };
@@ -217,7 +217,7 @@ test('on document keydown notifies selected when enter key is pressed using Ente
 
 test('on document click calls evt.preventDefault() preventDefaultOnClick_ is true', () => {
   const {foundation, mockAdapter} = setupTest();
-  const handlers = captureHandlers(mockAdapter, 'registerInteractionHandler');
+  const handlers = captureHandlers(mockAdapter.registerInteractionHandler);
   const evt = {
     preventDefault: td.func('evt.stopPropagation'),
   };
