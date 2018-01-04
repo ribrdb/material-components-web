@@ -28,7 +28,7 @@ function verifyDefaultAdapter(FoundationClass, expectedMethods) {
 
   assert.equal(methods.length, Object.keys(defaultAdapter).length, 'Every adapter key must be a function');
   if (COMPILED) {
-    assert.lengthOf(methods, expectedMethods.length);
+    assert.equal(methods.length, expectedMethods.length);
   } else {
     // Test for equality without requiring that the array be in a specific order
     assert.deepEqual(methods.slice().sort(), expectedMethods.slice().sort());
