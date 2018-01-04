@@ -63,6 +63,7 @@ class MDCTextField extends MDCComponent {
   }
 
   /**
+   * @override
    * @param {(function(!Element): !MDCRipple)=} rippleFactory A function which
    * creates a new MDCRipple.
    * @param {(function(!Element): !MDCTextFieldBottomLine)=} bottomLineFactory A function which
@@ -112,6 +113,7 @@ class MDCTextField extends MDCComponent {
     }
   }
 
+  /** @inheritDoc */
   destroy() {
     if (this.ripple) {
       this.ripple.destroy();
@@ -132,10 +134,11 @@ class MDCTextField extends MDCComponent {
   }
 
   /**
+   * @override
    * Initiliazes the Text Field's internal state based on the environment's
    * state.
    */
-  initialSyncWithDom() {
+  initialSyncWithDOM() {
     this.disabled = this.input_.disabled;
   }
 
@@ -169,7 +172,7 @@ class MDCTextField extends MDCComponent {
   }
 
   /**
-   * @return {!MDCTextFieldFoundation}
+   * @override @return {!MDCTextFieldFoundation}
    */
   getDefaultFoundation() {
     return new MDCTextFieldFoundation(

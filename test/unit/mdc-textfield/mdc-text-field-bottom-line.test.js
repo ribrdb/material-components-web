@@ -18,7 +18,9 @@ import bel from 'bel';
 import {assert} from 'chai';
 import td from 'testdouble';
 
-import {MDCTextFieldBottomLine, MDCTextFieldBottomLineFoundation} from '../../../packages/mdc-textfield/bottom-line';
+import bottomline from '../../../packages/mdc-textfield/bottom-line';
+const MDCTextFieldBottomLine = bottomline.MDCTextFieldBottomLine;
+const MDCTextFieldBottomLineFoundation = bottomline.MDCTextFieldBottomLineFoundation;
 
 const getFixture = () => bel`
   <div class="mdc-textfield__bottom-line"></div>

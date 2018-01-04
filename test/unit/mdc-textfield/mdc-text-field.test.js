@@ -16,12 +16,18 @@
 /** @fileoverview @suppress {checkTypes} */
 
 import {MDCRipple} from '../../../packages/mdc-ripple';
-import {MDCTextField, MDCTextFieldFoundation, MDCTextFieldBottomLine,
-  MDCTextFieldHelperText, MDCTextFieldIcon, MDCTextFieldLabel} from '../../../packages/mdc-textfield';
+import textfield from '../../../packages/mdc-textfield';
 
 import bel from 'bel';
 import td from 'testdouble';
 import {assert} from 'chai';
+
+const MDCTextField = textfield.MDCTextField;
+const MDCTextFieldHelperText = textfield.MDCTextFieldHelperText;
+const MDCTextFieldIcon = textfield.MDCTextFieldIcon;
+const MDCTextFieldLabel = textfield.MDCTextFieldLabel;
+const MDCTextFieldFoundation = textfield.MDCTextFieldFoundation;
+const MDCTextFieldBottomLine = textfield.MDCTextFieldBottomLine;
 
 const cssClasses = MDCTextFieldFoundation.cssClasses;
 
@@ -186,7 +192,7 @@ test('#destroy accounts for ripple nullability', () => {
 
 test('#initialSyncWithDom sets disabled if input element is not disabled', () => {
   const {component} = setupTest();
-  component.initialSyncWithDom();
+  component.initialSyncWithDOM();
   assert.isNotOk(component.disabled);
 });
 
