@@ -87,6 +87,7 @@ class MDCIconToggleFoundation extends MDCFoundation {
     });
   }
 
+  /** @inheritDoc */
   init() {
     this.refreshToggleData();
     this.savedTabIndex_ = this.adapter_.getTabIndex();
@@ -101,6 +102,7 @@ class MDCIconToggleFoundation extends MDCFoundation {
     this.toggleOffData_ = this.parseJsonDataAttr_(DATA_TOGGLE_OFF);
   }
 
+  /** @inheritDoc */
   destroy() {
     this.adapter_.deregisterInteractionHandler('click', this.clickHandler_);
     this.adapter_.deregisterInteractionHandler('keydown', this.keydownHandler_);

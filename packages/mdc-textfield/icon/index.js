@@ -41,7 +41,7 @@ class MDCTextFieldIcon extends MDCComponent {
   }
 
   /**
-   * @return {!MDCTextFieldIconFoundation}
+   * @override @return {!MDCTextFieldIconFoundation}
    */
   getDefaultFoundation() {
     return new MDCTextFieldIconFoundation(/** @type {!MDCTextFieldIconAdapter} */ (Object.assign({

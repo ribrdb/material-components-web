@@ -119,6 +119,7 @@ class MDCSimpleMenuFoundation extends MDCFoundation {
     this.itemHeight_;
   }
 
+  /** @inheritDoc */
   init() {
     const {ROOT, OPEN} = MDCSimpleMenuFoundation.cssClasses;
 
@@ -139,6 +140,7 @@ class MDCSimpleMenuFoundation extends MDCFoundation {
     this.adapter_.registerInteractionHandler('keydown', this.keydownHandler_);
   }
 
+  /** @inheritDoc */
   destroy() {
     clearTimeout(this.selectedTriggerTimerId_);
     // Cancel any currently running animations.

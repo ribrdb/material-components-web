@@ -80,7 +80,10 @@ class MDCCheckbox extends MDCComponent {
     return new MDCRipple(this.root_, foundation);
   }
 
-  /** @return {!MDCCheckboxFoundation} */
+  /**
+   * @override
+   * @return {!MDCCheckboxFoundation}
+   */
   getDefaultFoundation() {
     return new MDCCheckboxFoundation({
       addClass: (className) => this.root_.classList.add(className),
@@ -142,6 +145,7 @@ class MDCCheckbox extends MDCComponent {
     this.foundation_.setValue(value);
   }
 
+  /** @inheritDoc */
   destroy() {
     this.ripple_.destroy();
     super.destroy();

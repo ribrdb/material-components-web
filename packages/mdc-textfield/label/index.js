@@ -41,7 +41,7 @@ class MDCTextFieldLabel extends MDCComponent {
   }
 
   /**
-   * @return {!MDCTextFieldLabelFoundation}
+   * @override @return {!MDCTextFieldLabelFoundation}
    */
   getDefaultFoundation() {
     return new MDCTextFieldLabelFoundation(/** @type {!MDCTextFieldLabelAdapter} */ (Object.assign({

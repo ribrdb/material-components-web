@@ -83,6 +83,7 @@ class MDCCheckboxFoundation extends MDCFoundation {
       () => this.transitionCheckState_());
   }
 
+  /** @inheritDoc */
   init() {
     this.currentCheckState_ = this.determineCheckState_(this.getNativeControl_());
     this.adapter_.addClass(cssClasses.UPGRADED);
@@ -90,6 +91,7 @@ class MDCCheckboxFoundation extends MDCFoundation {
     this.installPropertyChangeHooks_();
   }
 
+  /** @inheritDoc */
   destroy() {
     this.adapter_.deregisterChangeHandler(this.changeHandler_);
     this.uninstallPropertyChangeHooks_();

@@ -61,10 +61,12 @@ class MDCTextFieldBottomLineFoundation extends MDCFoundation {
     this.transitionEndHandler_ = (evt) => this.handleTransitionEnd(evt);
   }
 
+  /** @inheritDoc */
   init() {
     this.adapter_.registerEventHandler('transitionend', this.transitionEndHandler_);
   }
 
+  /** @inheritDoc */
   destroy() {
     this.adapter_.deregisterEventHandler('transitionend', this.transitionEndHandler_);
   }

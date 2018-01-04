@@ -203,6 +203,7 @@ class MDCRippleFoundation extends MDCFoundation {
     };
   }
 
+  /** @inheritDoc */
   init() {
     if (!this.isSupported_()) {
       return;
@@ -430,6 +431,7 @@ class MDCRippleFoundation extends MDCFoundation {
     }
   }
 
+  /** @inheritDoc */
   destroy() {
     if (!this.isSupported_()) {
       return;
